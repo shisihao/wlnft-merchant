@@ -1,0 +1,288 @@
+<template>
+  <div>
+    <el-dialog
+      width="900px"
+      top="30px"
+      :title="form.id ? $t('table.edit') : $t('table.add')"
+      :visible.sync="addOrUpdateVisible"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :before-close="handleBeforeClose"
+      @closed="onClose()"
+    >
+      <el-form ref="form" :model="form" label-width="80px">
+        <el-form-item label="模板名称">
+          <el-input v-model="form.title" placeholder="请输入模板名称" />
+        </el-form-item>
+        <el-form-item label="排序">
+          <el-input-number v-model="form.sort" controls-position="right" placeholder="请输入" :min="0" />
+        </el-form-item>
+        <el-form-item label="价格">
+          <el-input v-model="form.code" oninput="value=value.replace(/[^\d]/g,'')" placeholder="请输入价格" clearable />
+        </el-form-item>
+        <el-form-item label="上传gltf文件" prop="three_url.three_gltf">
+          <custom-upload
+            class-name=""
+            ref-name="three_url.three_gltf"
+            :limit="1"
+            :show-file-list="true"
+            :file-list="gltfList"
+            @handleBeforeUpload="beforeAvatarUpload3d"
+            @handleSuccess="handleAvatarSuccess"
+            @handleError="handleError"
+            @handleExceed="handleExceed"
+            @handleRemove="handleRemove"
+            @elProgress="elProgress"
+          >
+            <el-button type="primary" disabled>点击上传</el-button>
+          </custom-upload>
+        </el-form-item>
+        <el-form-item label="上传bin文件" prop="three_url.three_bin">
+          <custom-upload
+            class-name=""
+            ref-name="three_url.three_bin"
+            :limit="1"
+            :show-file-list="true"
+            :file-list="binList"
+            @handleBeforeUpload="beforeAvatarUpload3d"
+            @handleSuccess="handleAvatarSuccess"
+            @handleError="handleError"
+            @handleExceed="handleExceed"
+            @handleRemove="handleRemove"
+          >
+            <el-button type="primary" disabled>点击上传</el-button>
+          </custom-upload>
+        </el-form-item>
+        <el-form-item label="3d渲染image文件" prop="three_url.three_image">
+          <div class="filter-list-box">
+            <draggable v-model="form.images" v-bind="dragOptions" class="wrapper" @start="drag = true" @end="drag = false">
+              <transition-group>
+                <div v-for="(item,index) in form.three_url.three_image" :key="item" class="upload-images">
+                  <div class="upload-image">
+                    <el-image :src="item && domin + item" />
+                  </div>
+                  <div class="upload-actions">
+                    <i class="el-icon-zoom-in" @click="onPicturePreview(item)" />
+                    <i class="el-icon-delete" @click="onPictureRemove(item, index, 'three_url.three_image')" />
+                  </div>
+                </div>
+              </transition-group>
+            </draggable>
+            <custom-upload
+              ref-name="three_url.three_image"
+              class-name="avatar-uploader"
+              @handleBeforeUpload="beforeAvatarUpload"
+              @handleSuccess="handleAvatarSuccess"
+            >
+              <i slot="default" class="el-icon-plus avatar-uploader-icon" />
+            </custom-upload>
+          </div>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" :loading="btnLoading" @click="onFormSubmit()">
+          {{ $t('table.confirm') }}
+        </el-button>
+        <el-button @click="handleBeforeClose()">
+          {{ $t('table.cancel') }}
+        </el-button>
+      </div>
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+import { addOrUpdate } from '@/api/helps'
+
+export default {
+  name: 'AddOrUpdate',
+  props: {
+    addOrUpdateVisible: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data() {
+    return {
+      btnLoading: false,
+      binList: [],
+      gltfList: [],
+      imageViewer: false,
+      imageViewerList: [],
+      currentName: '',
+      form: {
+        id: 0,
+        title: '',
+        sort: 0,
+        content: ''
+      }
+    }
+  },
+  computed: {
+    dragOptions() {
+      return {
+        animation: 200,
+        group: 'description',
+        disabled: false,
+        ghostClass: 'ghost'
+      }
+    }
+  },
+  methods: {
+    init(data) {
+      if (data) {
+        this.form = { ...data }
+      }
+    },
+    onFormSubmit() {
+      this.$refs['form'].validate((valid) => {
+        if (valid) {
+          this.btnLoading = true
+          addOrUpdate(this.form)
+            .then(({ msg }) => {
+              this.$message.success(msg)
+              this.$emit('refreshList')
+            })
+            .catch(() => {
+              this.btnLoading = false
+            })
+        }
+      })
+    },
+    handleAvatarSuccess(response, file) {
+      if (this.currentName === 'images') {
+        this.form[this.currentName].push(response)
+      } else if (this.currentName.indexOf('three_url') >= 0) {
+        if (this.currentName.indexOf('image') >= 0) {
+          this.form.three_url.three_image.push(response)
+        } else {
+          const a = this.currentName.split('.')
+          this.form[a[0]][a[1]] = response
+        }
+      } else {
+        this.form[this.currentName] = response
+      }
+    },
+    beforeAvatarUpload(file, cb, refName) {
+      const type = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif']
+      const isLt2M = file.size / 1024 / 1024 < 20
+      if (!type.includes(file.type)) {
+        this.$message.error('上传图片只能是 ' + type.join(',') + ' 格式!')
+        cb(false)
+        return
+      }
+      if (!isLt2M) {
+        this.$message.error('上传图片大小不能超过 20M')
+        cb(false)
+        return
+      }
+      this.currentName = refName
+      cb(true)
+    },
+    handleError() {
+      this[`${this.currentName.replace('three_url.three_', '')}List`] = []
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，请删除后在上传`)
+    },
+    handleRemove(file, fileList) {
+      this.form.three_url[`three_${file.name.split('.')[1]}`] = ''
+      this[`${file.name.split('.')[1]}List`] = []
+    },
+    beforeAvatarUpload3d(file, cb, refName) {
+      const a = file.name.split('.')
+      const isLt20M = file.size / 1024 / 1024 < 20
+      if (a[a.length - 1] !== refName.replace('three_url.three_', '')) {
+        this.$message.error(`上传文件只能是 ${refName.replace('three_url.three_', '')} 格式!`)
+        cb(false)
+        return
+      }
+      if (!isLt20M) {
+        this.$message.error('上传文件大小不能超过 20M')
+        cb(false)
+        return
+      }
+      this.currentName = refName
+      cb(true)
+    },
+    onClose() {
+      this.$reset()
+    },
+    onPicturePreview(img) {
+      this.imageViewerList = [this.domin + img]
+      this.imageViewer = true
+    },
+    onPictureRemove(img, index, type) {
+      if (type === 'images') {
+        this.form.images.splice(index, 1)
+      } else {
+        this.form.three_url.three_image.splice(index, 1)
+      }
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+
+.el-input-number {
+  width: 200px;
+}
+.upload-images {
+      overflow: hidden;
+      background-color: #fff;
+      border: 1px solid #c0ccda;
+      border-radius: 6px;
+      box-sizing: border-box;
+      width: 100px;
+      height: 100px;
+      margin: 0 8px 8px 0;
+      display: inline-block;
+      position: relative;
+      cursor: grabbing;
+      .upload-image {
+        width: 100%;
+        height: 100%;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        & > img {
+          width: 100%;
+        }
+      }
+      .upload-actions {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-color: rgba(0,0,0,0.5);
+        text-align: center;
+        display: none;
+        i {
+          margin-left: 6px;
+          margin-top: 6px;
+          &:first-child {
+            margin-left: 0;
+          }
+        }
+      }
+      &:hover .upload-actions {
+        display: block;
+      }
+      .upload-actions i {
+        color: #fff;
+        font-size: 18px;
+        cursor: pointer;
+      }
+    }
+</style>
