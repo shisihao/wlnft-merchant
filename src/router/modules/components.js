@@ -97,7 +97,8 @@ export const localMap = {
   deliverys: () => import('@/views/delivery/index'), // 运费模版
   integralReward: () => import('@/views/configs/integral-reward'), // 奖励积分有效期配置
   qualification: () => import('@/views/configs/qualification'), // 购买资格提示
-  interestsGrade: () => import('@/views/interestsGrade/index'),
-  chainNum: () => import('@/views/chainNum/index'),
-  chainPayFee: () => import('@/views/tenant/chainPayFee')
+  interestsGrade: () => import('@/views/interestsGrade/index'), // 权益等级
+  chainOrders: () => import('@/views/tenant/chainOrders'), // 链费用管理
+  chainLog: () => import('@/views/chainLog/index'), // 链使用明细
+  exclusiveGoods: () => import('@/views/exclusiveGoods/index')// 专属藏品配置
 }

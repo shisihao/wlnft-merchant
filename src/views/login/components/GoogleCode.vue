@@ -48,8 +48,13 @@ export default {
     onhandleLogin() {
       this.btnLoading = true
       this.$store.dispatch('user/login', Object.assign(this.loginForm, this.form))
-        .then(() => {
+        .then((data) => {
           this.$router.replace({ path: '/' })
+          // if (data.admin.is_first === 0) {
+          //   this.$router.replace({ path: '/' })
+          // } else {
+          //   this.$router.replace({ path: '/step' })
+          // }
         })
         .catch(() => {})
         .finally(() => {

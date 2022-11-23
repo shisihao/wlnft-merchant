@@ -179,3 +179,38 @@ export function getAliToken(params) {
     params
   })
 }
+
+// 链费用订单
+export function chainOrders(params) {
+  return request.get('/tenantInfo/chainOrders', {
+    params
+  })
+}
+
+// 链费用订单
+export function chainOrdersExport(params) {
+  return request.get('/tenantInfo/chainOrders/export', {
+    params
+  })
+}
+
+// 链费用订单支付
+export function chainOrdersPay({ id, ...data }) {
+  return request.post(`/tenantInfo/chainOrders/pay/${id}`, {
+    ...data
+  })
+}
+
+// 服务费管理支付
+export function severOrdersPay({ id, ...data }) {
+  return request.post(`/tenantInfo/order/pay/${id}`, {
+    ...data
+  })
+}
+
+// 链费用充值
+export function underOrdersPay(data) {
+  return request.post(`/tenantInfo/chainOrders/store`, {
+    ...data
+  })
+}

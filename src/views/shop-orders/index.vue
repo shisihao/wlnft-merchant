@@ -232,12 +232,13 @@
           </template>
         </el-table-column>
       </el-table-column>
-      <el-table-column align="center" width="180" fixed="right">
+      <el-table-column align="center" width="220" fixed="right">
         <template slot-scope="{ row }">
           <el-button v-show="row.status === 0" type="warning" @click="handleColseOrder(row.id)">关闭订单</el-button>
           <el-button v-show="row.refund_status===1" type="warning" @click="handleGoRefund(row.order_no)">去售后</el-button>
           <el-button v-show="row.refund_status===0&&row.status === 1" type="primary" @click="handleDelivery(row)">去发货</el-button>
           <el-button v-show="row.refund_status===0&&[2, 3, 4].includes(row.status)" type="primary" plain @click="onLogistics(row)">查看物流</el-button>
+          <el-button v-show="row.refund_status===0&&[2].includes(row.status)" type="primary" plain @click="onEditLogistics(row)">修改物流信息</el-button>
           <el-popover
             placement="bottom-start"
             max-width="300"
@@ -272,6 +273,12 @@
       ref="batchDeliver"
       @refreshList="getList()"
     />
+    <!-- 修改物流信息 -->
+    <logistics
+      v-if="logisticsVisible"
+      ref="logistics"
+      @refreshList="getList()"
+    />
   </div>
 </template>
 
@@ -289,9 +296,11 @@ import { getToken, DominKey } from '@/utils/auth'
 import DeliveryDialog from './component/DeliveryDialog'
 import Pagination from '@/components/Pagination'
 import batchDeliver from './component/batchDeliver'
+import Logistics from './component/Logistics'
+
 export default {
   name: 'EntityOrders',
-  components: { DeliveryDialog, Pagination, batchDeliver },
+  components: { DeliveryDialog, Pagination, batchDeliver, Logistics },
   data() {
     return {
       domin: getToken(DominKey),
@@ -320,6 +329,7 @@ export default {
       loading: false,
       list: [],
       deliveryDialogVisible: false,
+      logisticsVisible: false,
       downloadLoading: false,
       batchDeliverVisible: false,
       pages: {
@@ -422,6 +432,12 @@ export default {
       this.batchDeliverVisible = true
       this.$nextTick(() => {
         this.$refs.batchDeliver && this.$refs.batchDeliver.init()
+      })
+    },
+    onEditLogistics() {
+      this.logisticsVisible = true
+      this.$nextTick(() => {
+        this.$refs.logistics && this.$refs.logistics.init()
       })
     },
     // 跳转售后页面

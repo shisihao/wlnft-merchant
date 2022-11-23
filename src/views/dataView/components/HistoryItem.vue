@@ -39,7 +39,7 @@
               昨日商城销售额
             </div>
             <div class="user-num">
-              <span>{{ statistics.sale.integral.yesterday }}</span>
+              <span>{{ statistics.entity_sale.cny.yesterday }}</span>
             </div>
             <div class="user-text" />
           </el-card>
@@ -54,7 +54,7 @@
               剩余上链次数
             </div>
             <div class="user-num">
-              <b>{{ statistics.integral.balance }}</b>
+              <b>{{ info.chain_num }}</b>
             </div>
             <div class="user-text">
               <span class="usedetails">立即充值</span>
@@ -65,7 +65,7 @@
               纪念品转赠收入
             </div>
             <div class="user-num">
-              <b>{{ statistics.integral.expend | moneyToFormat }}</b>
+              <b>{{ statistics.give_sale | moneyToFormat }}</b>
             </div>
             <div class="user-text" />
           </el-card>
@@ -146,7 +146,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['integral'])
+    ...mapGetters(['info'])
   },
   created() {
   },

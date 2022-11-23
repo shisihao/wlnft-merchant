@@ -4,10 +4,6 @@
       <div class="app-step-title">
         请上传您的APP基本资料
       </div>
-      <el-steps :active="step" finish-status="success" simple>
-        <el-step title="1.上传基本资料" />
-        <el-step title="2.选择APP模板" />
-      </el-steps>
       <div class="app-step-content">
         <div v-show="step === 0">
           <div class="step-form">
@@ -31,52 +27,8 @@
             </el-form>
           </div>
           <div class="app-step-next">
-            <el-button type="primary" size="medium" @click="onStepNext">下一步</el-button>
+            <el-button type="primary" size="medium" @click="onStepNext">确定</el-button>
           </div>
-        </div>
-        <div v-show="step === 1">
-          <el-empty v-if="templateLoading" description="暂无数据" />
-          <el-tabs v-else v-model="activeName" tab-position="left">
-            <el-tab-pane v-for="(item, index) in templateList" :key="index" :label="templateList[index].name" :name="`tem_${index}`">
-              <div class="swpier-box">
-                <div class="template-title">
-                  {{ templateList[index].name }}
-                </div>
-                <div class="swpier-content">
-                  <swiper :ref="`mySwiper${index}`" :options="swiperOptions">
-                    <swiper-slide v-for="(v, i) in item.images" :key="i" class="images-list">
-                      <div class="phone-section" @click="onPreview(index)">
-                        <el-image class="phone-box" :src="phoneBox" />
-                        <div v-if="v.bottom" class="phone-tabbar">
-                          <img :src="domin + v.bottom" alt="">
-                        </div>
-                        <div class="phone-content">
-                          <img :src="domin + v.center" alt="">
-                        </div>
-                      </div>
-                    </swiper-slide>
-                    <div slot="pagination" class="swiper-pagination" />
-                  </swiper>
-                  <div slot="button-prev" class="swiper-button-prev" :class="item.btn === 0 ? 'swiper-button-prev-disable' : ''" @click="prev(index)" />
-                  <div slot="button-next" class="swiper-button-next" :class="item.btn === 1 ? 'swiper-button-next-disable' : ''" @click="next(index)" />
-                </div>
-                <div class="template-introduce">
-                  <span>
-                    设计风格介绍
-                  </span>
-                  <div>
-                    {{ templateList[index].desc }}
-                  </div>
-                </div>
-              </div>
-
-              <div class="template-btn">
-                <el-button size="medium" @click="logout">退出登录</el-button>
-                <el-button type="primary" size="medium" plain @click="onStepPrev">上一步</el-button>
-                <el-button type="primary" size="medium" :loading="btnLoading" @click="onSubmit">确认选择</el-button>
-              </div>
-            </el-tab-pane>
-          </el-tabs>
         </div>
       </div>
     </div>
@@ -294,17 +246,17 @@ export default {
       scrollTo(0)
     },
     onStepNext() {
-      this.$refs['form'].validate(valid => {
-        if (valid) {
-          this.$refs.appStep.onsubmit()
-          if (this.form.start_logo && this.form.inside_logo && this.form.invite_logo) {
-            this.step = 1
-            scrollTo(0)
-          }
-        } else {
-          this.$message.error('请输入APP产品名')
-        }
-      })
+    //   this.$refs['form'].validate(valid => {
+    //     if (valid) {
+    //       this.$refs.appStep.onsubmit()
+    //       if (this.form.start_logo && this.form.inside_logo && this.form.invite_logo) {
+    //         this.step = 1
+    //         scrollTo(0)
+    //       }
+    //     } else {
+    //       this.$message.error('请输入APP产品名')
+    //     }
+    //   })
     },
     onSubmit() {
       this.btnLoading = true

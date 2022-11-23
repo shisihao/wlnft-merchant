@@ -1,15 +1,12 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-form :inline="true" :model="search">
-        <el-form-item label="收费开关">
-          <el-switch
-            v-model="value1"
-          />
+      <el-form :model="search">
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-plus" @click="onAddOrUpdate()">
+            {{ $t('table.add') }}
+          </el-button>
         </el-form-item>
-        <el-button type="primary" icon="el-icon-plus" @click="onAddOrUpdate">
-          {{ $t('table.add') }}
-        </el-button>
       </el-form>
     </div>
     <el-table
@@ -25,17 +22,17 @@
         align="center"
       />
       <el-table-column
-        prop="id"
+        prop="name"
         label="模板名称"
         align="center"
       />
       <el-table-column
-        prop="id"
+        prop="sort"
         label="排序"
         align="center"
       />
       <el-table-column
-        prop="id"
+        prop="cny_price"
         label="价格"
         align="center"
       />
@@ -48,11 +45,11 @@
       <el-table-column
         label="操作"
         align="center"
-        width="180"
+        width="220"
       >
         <template slot-scope="{ row }">
           <el-button type="primary" @click="onAddOrUpdate(row)">编辑</el-button>
-          <el-button type="wraning" @click="onPreview3d(row)">预览</el-button>
+          <el-button type="warning" @click="onPreview3d(row)">预览</el-button>
           <el-button type="danger" @click="onDelete(row)">删除</el-button>
         </template>
       </el-table-column>
@@ -70,18 +67,21 @@
 </template>
 
 <script>
-import { dataList, deleteData } from '@/api/chainNum'
+import { dataList, deleteData } from '@/api/exclusiveGoods'
 import AddOrUpdate from './components/AddOrUpdate'
 import Pagination from '@/components/Pagination'
 
 export default {
-  name: 'Index',
+  name: 'ExclusiveGoods',
   components: { Pagination, AddOrUpdate },
   data() {
     return {
       list: [],
       loading: false,
       addOrUpdateVisible: false,
+      search: {
+
+      },
       pages: {
         total: 0,
         limit: 20,
@@ -103,7 +103,7 @@ export default {
       dataList({ page, ...this.search, limit: this.pages.limit })
         .then(response => {
           if (response.code !== 0) return
-          this.list = response.data
+          this.list = response.data.data
         })
         .catch(() => {
         })

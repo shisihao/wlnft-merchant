@@ -26,8 +26,8 @@
                 <div class="card-panel-text">
                   本月商城销售额（元）
                 </div>
-                <count-to :start-val="0" :end-val="+common.uv.month" :duration="2000" class="card-panel-num" />
-                <div class="card-panel-desc">累计销售额 {{ common.uv.day || 0 }}</div>
+                <count-to :start-val="0" :end-val="+common.entity_sale.cny.curr_month" :duration="2000" class="card-panel-num" />
+                <div class="card-panel-desc">累计销售额 {{ common.entity_sale.cny.total || 0 }}</div>
               </div>
             </div>
           </el-col>
@@ -37,7 +37,7 @@
                 <div class="card-panel-text">
                   上月商城销售额（元）
                 </div>
-                <count-to :start-val="0" :end-val="+common.maintenance_fee.curr_month.pay_price" :duration="2000" class="card-panel-num" />
+                <count-to :start-val="0" :end-val="+common.entity_sale.cny.last_month" :duration="2000" class="card-panel-num" />
               </div>
             </div>
           </el-col>

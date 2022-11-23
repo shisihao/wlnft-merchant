@@ -1,24 +1,30 @@
 <template>
   <div>
     <el-dialog
-      width="900px"
+      width="800px"
       top="30px"
       :title="form.id ? $t('table.edit') : $t('table.add')"
-      :visible.sync="addOrUpdateVisible"
+      :visible.sync="visible"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
-      :before-close="handleBeforeClose"
       @closed="onClose()"
     >
-      <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="模板名称">
-          <el-input v-model="form.title" placeholder="请输入模板名称" />
+      <el-form ref="form" :model="form" label-width="130px">
+        <el-form-item label="模板名称" prop="name">
+          <el-input v-model="form.name" placeholder="请输入模板名称" />
         </el-form-item>
-        <el-form-item label="排序">
-          <el-input-number v-model="form.sort" controls-position="right" placeholder="请输入" :min="0" />
+        <el-form-item label="排序" prop="sort">
+          <el-input-number v-model="form.sort" controls-position="right" placeholder="请输入" :min="0" :precision="0" />
         </el-form-item>
-        <el-form-item label="价格">
-          <el-input v-model="form.code" oninput="value=value.replace(/[^\d]/g,'')" placeholder="请输入价格" clearable />
+        <el-form-item label="价格" prop="cny_price">
+          <el-input-number
+            v-model="form.cny_price"
+            controls-position="right"
+            placeholder="请输入价格"
+            clearable
+            :min="0"
+            :precision="2"
+          />
         </el-form-item>
         <el-form-item label="上传gltf文件" prop="three_url.three_gltf">
           <custom-upload
@@ -32,9 +38,8 @@
             @handleError="handleError"
             @handleExceed="handleExceed"
             @handleRemove="handleRemove"
-            @elProgress="elProgress"
           >
-            <el-button type="primary" disabled>点击上传</el-button>
+            <el-button type="primary">点击上传</el-button>
           </custom-upload>
         </el-form-item>
         <el-form-item label="上传bin文件" prop="three_url.three_bin">
@@ -50,7 +55,7 @@
             @handleExceed="handleExceed"
             @handleRemove="handleRemove"
           >
-            <el-button type="primary" disabled>点击上传</el-button>
+            <el-button type="primary">点击上传</el-button>
           </custom-upload>
         </el-form-item>
         <el-form-item label="3d渲染image文件" prop="three_url.three_image">
@@ -83,7 +88,7 @@
         <el-button type="primary" :loading="btnLoading" @click="onFormSubmit()">
           {{ $t('table.confirm') }}
         </el-button>
-        <el-button @click="handleBeforeClose()">
+        <el-button @click="visible = false">
           {{ $t('table.cancel') }}
         </el-button>
       </div>
@@ -92,18 +97,15 @@
 </template>
 
 <script>
-import { addOrUpdate } from '@/api/helps'
+import { addOrUpdate } from '@/api/exclusiveGoods'
+import CustomUpload from '@/components/Upload/CustomUpload'
 
 export default {
   name: 'AddOrUpdate',
-  props: {
-    addOrUpdateVisible: {
-      type: Boolean,
-      default: false
-    }
-  },
+  components: { CustomUpload },
   data() {
     return {
+      visible: false,
       btnLoading: false,
       binList: [],
       gltfList: [],
@@ -112,9 +114,15 @@ export default {
       currentName: '',
       form: {
         id: 0,
-        title: '',
+        three_url: {
+          three_bin: '',
+          three_gltf: '',
+          three_image: []
+        },
+        images: [],
+        cny_price: 0,
         sort: 0,
-        content: ''
+        name: ''
       }
     }
   },
@@ -130,17 +138,20 @@ export default {
   },
   methods: {
     init(data) {
+      this.visible = true
       if (data) {
+        console.log(111)
         this.form = { ...data }
       }
     },
     onFormSubmit() {
-      this.$refs['form'].validate((valid) => {
+      this.$refs['form'].validate(valid => {
         if (valid) {
           this.btnLoading = true
           addOrUpdate(this.form)
             .then(({ msg }) => {
               this.$message.success(msg)
+              this.visible = false
               this.$emit('refreshList')
             })
             .catch(() => {
@@ -213,76 +224,104 @@ export default {
       this.imageViewer = true
     },
     onPictureRemove(img, index, type) {
-      if (type === 'images') {
-        this.form.images.splice(index, 1)
-      } else {
-        this.form.three_url.three_image.splice(index, 1)
-      }
+      this.form.three_url.three_image.splice(index, 1)
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
 .el-input-number {
-  width: 200px;
+	width: 200px;
 }
-.upload-images {
-      overflow: hidden;
-      background-color: #fff;
-      border: 1px solid #c0ccda;
-      border-radius: 6px;
-      box-sizing: border-box;
-      width: 100px;
-      height: 100px;
-      margin: 0 8px 8px 0;
-      display: inline-block;
-      position: relative;
-      cursor: grabbing;
-      .upload-image {
-        width: 100%;
-        height: 100%;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        align-items: center;
-        & > img {
-          width: 100%;
-        }
-      }
-      .upload-actions {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        background-color: rgba(0,0,0,0.5);
-        text-align: center;
-        display: none;
-        i {
-          margin-left: 6px;
-          margin-top: 6px;
-          &:first-child {
-            margin-left: 0;
-          }
-        }
-      }
-      &:hover .upload-actions {
-        display: block;
-      }
-      .upload-actions i {
-        color: #fff;
-        font-size: 18px;
-        cursor: pointer;
-      }
-    }
+.avatar-uploader {
+	display: inline-block;
+	::v-deep .el-upload {
+		border: 1px dashed #d9d9d9;
+		border-radius: 6px;
+		cursor: pointer;
+		position: relative;
+		overflow: hidden;
+	}
+	.el-upload:hover {
+		border-color: #409eff;
+	}
+	.avatar-uploader-icon {
+		font-size: 28px;
+		color: #8c939d;
+		width: 100px;
+		height: 100px;
+		line-height: 100px;
+		text-align: center;
+	}
+	.avatar {
+		width: 100px;
+		height: 100px;
+		display: block;
+		object-fit: contain;
+	}
+}
+::v-deep .filter-list-box {
+	.wrapper {
+		display: inline;
+		vertical-align: top;
+	}
+	.upload-images {
+		overflow: hidden;
+		background-color: #fff;
+		border: 1px solid #c0ccda;
+		border-radius: 6px;
+		box-sizing: border-box;
+		width: 100px;
+		height: 100px;
+		margin: 0 8px 8px 0;
+		display: inline-block;
+		position: relative;
+		cursor: grabbing;
+		.upload-image {
+			width: 100%;
+			height: 100%;
+			display: -webkit-box;
+			display: -ms-flexbox;
+			display: -webkit-flex;
+			display: flex;
+			-webkit-box-pack: center;
+			-ms-flex-pack: center;
+			-webkit-justify-content: center;
+			justify-content: center;
+			-webkit-box-align: center;
+			-ms-flex-align: center;
+			-webkit-align-items: center;
+			align-items: center;
+			& > img {
+				width: 100%;
+			}
+		}
+		.upload-actions {
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			left: 0;
+			top: 0;
+			background-color: rgba(0, 0, 0, 0.5);
+			text-align: center;
+			display: none;
+			i {
+				margin-left: 6px;
+				margin-top: 6px;
+				&:first-child {
+					margin-left: 0;
+				}
+			}
+		}
+		&:hover .upload-actions {
+			display: block;
+		}
+		.upload-actions i {
+			color: #fff;
+			font-size: 18px;
+			cursor: pointer;
+		}
+	}
+}
 </style>

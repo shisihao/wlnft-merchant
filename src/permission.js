@@ -82,7 +82,6 @@ router.beforeEach(async(to, from, next) => {
           getMenuNav()
             .then(response => {
               let serverRoute = response.data.menus || []
-
               if (store.getters.info.wallet_status === 0) {
                 // 过滤掉云账号开户费用配置的路由
                 serverRoute = serverRoute.map(item => {

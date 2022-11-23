@@ -16,19 +16,9 @@
           />
         </el-form-item>
         <el-form-item label="类型">
-          <el-select v-model="search" placeholder="请选择" clearable @change="getList(1)">
+          <el-select v-model="search.type" placeholder="请选择" clearable @change="getList(1)">
             <el-option
               v-for="item in typeOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="品牌商">
-          <el-select v-model="search" placeholder="请选择" clearable @change="getList(1)">
-            <el-option
-              v-for="item in options"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -56,17 +46,20 @@
         align="center"
       />
       <el-table-column
-        prop="id"
+        prop="tenant.name"
         label="品牌商"
         align="center"
       />
       <el-table-column
-        prop="id"
         label="类型"
         align="center"
-      />
+      >
+        <template slot-scope="{row}">
+          {{ row.type|paraphrase(typeOptions) }}
+        </template>
+      </el-table-column>
       <el-table-column
-        prop="id"
+        prop="tenant.num"
         label="消耗次数"
         align="center"
       />
@@ -77,21 +70,25 @@
 
 <script>
 import { pickerOptions } from '@/utils/explain'
-import { dataList, exportOrder } from '@/api/chainNum'
+import { dataList, exportOrder } from '@/api/chainLog'
 import Pagination from '@/components/Pagination'
+
 export default {
-  name: 'Index',
+  name: 'ChainLog',
   components: { Pagination },
   data() {
     return {
       downloadLoading: false,
       pickerOptions,
       search: {
-
+        type: '',
+        start_time: '',
+        end_time: ''
       },
       list: [],
       loading: false,
       dateRangeValue: [],
+      merOptions: [],
       pages: {
         total: 0,
         limit: 20,
@@ -99,8 +96,8 @@ export default {
       },
       typeOptions: [
         { label: '全部', value: '' },
-        { label: '藏品铸造', value: 1 },
-        { label: '用户藏品转赠', value: 2 }
+        { label: '藏品铸造', value: 'cast' },
+        { label: '藏品转赠', value: 'give' }
       ]
     }
   },
@@ -117,8 +114,7 @@ export default {
       if (page === 1) this.pages.current = page
       dataList({ page, ...this.search, limit: this.pages.limit })
         .then(response => {
-          if (response.code !== 0) return
-          this.list = response.data
+          this.list = response.data.data
         })
         .catch(() => {
         })

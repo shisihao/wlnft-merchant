@@ -1,31 +1,26 @@
 <template>
   <el-dialog
-    :title="payType === 'chain'?'链费用缴纳': '服务器费缴纳'"
+    title="链费用充值"
     :visible.sync="visible"
     @closed="onClose()"
   >
     <el-form ref="form" :rules="rules" :model="form" label-width="120px">
-      <div v-if="info" class="info">
-        <!-- <div v-if="payType === 'chain'">
-          <el-form-item label="购买次数" prop="credential">
-            <el-input v-model="form.code" oninput="value=value.replace(/[^\d]/g,'')" placeholder="请输入需要购买的上链次数" clearable />
-          </el-form-item>
-          <div class="info-item">
-            应收金额：
-            <span class="price">{{ serverInfo.pay_price }}元</span>
-          </div>
-          <div>当前优惠：<b style="color: #b8741a;">{{ serverInfo.maintain_rate }} 折</b></div>
-        </div> -->
-        <div class="info-item pay">
-          待付款：
-          <span class="price">{{ info.pay_price }}元</span>
+      <el-form-item label="购买次数" prop="num">
+        <el-input v-model="form.num" oninput="value=value.replace(/[^\d]/g,'')" placeholder="请输入需要购买的上链次数" clearable />
+      </el-form-item>
+      <div class="info">
+        <div class="info-item">
+          应收金额：
+          <span class="price">{{ multiplyNum(allPrice,form.num,info.maintain_rate) }} 元</span>
         </div>
-        <template v-if="info.bank_info">
-          <div class="info-item">开户行：{{ info.bank_info.bank }}</div>
-          <div class="info-item">开户号：{{ info.bank_info.account_number }}</div>
-          <div class="info-item">开户名：{{ info.bank_info.account_name }}</div>
+        <div class="info-item">当前优惠：<b style="color: #b8741a;">{{ info.maintain_rate }} 折</b></div>
+        <template v-if="configInfo">
+          <div class="info-item">开户行：{{ configInfo.account_receivable ? configInfo.account_receivable.bank.bank : '' }}</div>
+          <div class="info-item">开户号：{{ configInfo.account_receivable ? configInfo.account_receivable.bank.account_number : '' }}</div>
+          <div class="info-item">开户名：{{ configInfo.account_receivable ? configInfo.account_receivable.bank.account_name : '' }}</div>
         </template>
       </div>
+
       <el-form-item label="支付凭证" prop="credential">
         <custom-upload
           class-name="image-uploader"
@@ -66,10 +61,11 @@
 </template>
 
 <script>
-import { chainOrdersPay, severOrdersPay } from '@/api/tenant'
+import { underOrdersPay } from '@/api/tenant'
 import CustomUpload from '@/components/Upload/CustomUpload'
 import { DominKey, getToken } from '@/utils/auth'
 import { mapGetters } from 'vuex'
+import { BigNumber } from 'bignumber.js'
 
 export default {
   name: 'PayFee',
@@ -78,12 +74,13 @@ export default {
     return {
       payType: '',
       domin: getToken(DominKey),
-      info: {},
       visible: false,
       btnLoading: false,
       goodsLoading: false,
+      allPrice: 0,
       form: {
         id: 0,
+        num: '',
         credential: ''
       },
       rules: {
@@ -93,15 +90,32 @@ export default {
       }
     }
   },
+
   computed: {
-    ...mapGetters({ 'serverInfo': 'info' })
+    ...mapGetters([
+      'configInfo', 'info'
+    ])
   },
-  watch: {},
+  watch: {
+    'form.num': {
+      handler(newVal, oldVal) {
+        if (newVal) {
+          let item = { max: 0, price: 0 }
+          const Item = this.configInfo.chain_config.find(v => {
+            if (item.max < v.max) {
+              item = v
+            }
+            return v.max >= this.form.num && v.min <= this.form.num
+          }) || item
+          this.allPrice = Item.price
+        } else {
+          this.allPrice = 0
+        }
+      }
+    }
+  },
   methods: {
-    init(data, payType) {
-      this.info = data
-      this.form.id = data.id
-      this.payType = payType
+    init() {
       this.visible = true
     },
     onFormSubmit() {
@@ -116,18 +130,20 @@ export default {
           })
             .then(() => {
               this.btnLoading = true
-              if (this.payType === 'chain') {
-                this.onPayChain()
-              } else {
-                this.onSeverOrdersPay()
-              }
+              this.onUnderOrdersPay()
             })
             .catch(() => {})
         }
       })
     },
-    onPayChain() {
-      chainOrdersPay(this.form)
+    multiplyNum(num, fee, fee2) {
+      const price = new BigNumber(num).times(fee || 0)
+      const discount = new BigNumber(fee2).div(10)
+      const all = price.times(discount)
+      return all
+    },
+    onUnderOrdersPay() {
+      underOrdersPay(this.form)
         .then(({ msg }) => {
           this.$message.success(msg)
           this.visible = false
@@ -137,17 +153,7 @@ export default {
           this.btnLoading = false
         })
     },
-    onSeverOrdersPay() {
-      severOrdersPay(this.form)
-        .then(({ msg }) => {
-          this.$message.success(msg)
-          this.visible = false
-          this.$emit('refreshList')
-        })
-        .catch(() => {
-          this.btnLoading = false
-        })
-    },
+
     onHandleUpload(className, refName) {
       document.querySelector(`.${className} input`).click()
     },
@@ -177,7 +183,7 @@ export default {
 
 <style scoped>
 .info {
-  padding: 0 80px;
+  padding: 0 125px;
 }
 .info-item {
   margin-bottom: 20px;

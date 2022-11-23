@@ -19,7 +19,7 @@
           <el-radio-group
             v-model="search.status"
             size="small"
-            @change="onChangeStatus"
+            @change="getList(1)"
           >
             <el-badge
               v-for="item in statusOptions"
@@ -51,35 +51,28 @@
       <el-table v-loading="loading" border :data="list">
         <el-table-column prop="id" label="ID" align="center" />
         <el-table-column prop="order_no" label="订单号" align="center" />
-        <el-table-column header-align="center" label="续费方式">
+        <el-table-column prop="order_no" label="订单时间" align="center" />
+        <el-table-column prop="created_at" header-align="center" label="订单时间">
           <template slot-scope="{ row }">
-            <div>
-              支付方式: {{ row.pay_type == "bank" ? "银行卡" : row.pay_type }}
-            </div>
-            <div>
-              <div v-if="row.coupon">
-                应付金额：{{ row.pay_price + row.coupon.amount }}
+            <div>{{ row.month }}月服务费：￥{{ row.pay_price }}}</div>
+          </template>
+        </el-table-column>
+        <el-table-column header-align="center" label="账户信息">
+          <template slot-scope="{ row }">
+            <div v-if="row.bank_info">
+              <div>
+                开户银行： {{ row.bank_info.bank }}
               </div>
-              <div v-else>应付金额：{{ row.pay_price }}</div>
-              <div>实付金额：{{ row.pay_price }}</div>
+              <div>
+                收款账户： {{ row.bank_info.account_number }}
+              </div>
+              <div>
+                收款户名：{{ row.bank_info.account_name }}
+              </div>
             </div>
+            <div v-else> 收款账户： 暂无 </div>
           </template>
         </el-table-column>
-        <el-table-column label="优惠券" align="center">
-          <template slot-scope="{ row }">
-            <div v-if="row.coupon">
-              {{ row.coupon.amount }}
-            </div>
-            <div v-else>-</div>
-          </template>
-        </el-table-column>
-        <el-table-column label="续费类型" align="center">
-          <template slot-scope="{ row }">
-            {{ row.order_type === 0 ? "自购" : "导入" }}
-          </template>
-        </el-table-column>
-
-        <el-table-column prop="days" label="延续天数" align="center" />
         <el-table-column width="120" label="凭证" align="center">
           <template slot-scope="{ row }">
             <el-image
@@ -133,7 +126,17 @@
             </template>
           </template>
         </el-table-column>
-        <el-table-column prop="created_at" label="续费时间" align="center" />
+        <el-table-column label="操作" width="160" align="center">
+          <template slot-scope="{ row }">
+            <el-button
+              v-if="row.status !== 1"
+              type="primary"
+              @click="handleOprate(row)"
+            >
+              立即处理
+            </el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <pagination
@@ -143,6 +146,7 @@
       :limit.sync="pages.limit"
       @pagination="getList()"
     />
+    <PayFee v-if="payVisible" ref="payFee" @refreshList="getList(1)" />
   </div>
 </template>
 
@@ -150,6 +154,7 @@
 import Pagination from '@/components/Pagination'
 import { getToken, DominKey } from '@/utils/auth'
 import { serverOrder, serverOrderExport } from '@/api/tenant'
+import PayFee from './components/PayFee.vue'
 import {
   payOptions,
   pickerOptions,
@@ -157,7 +162,7 @@ import {
 } from '@/utils/explain'
 export default {
   name: 'ServerRenewal',
-  components: { Pagination },
+  components: { Pagination, PayFee },
   data() {
     return {
       // 0-待支付/1-已支付(待审核)/2-审核通过/3-驳回/4-取消
@@ -195,6 +200,7 @@ export default {
       payOptions,
       downloadLoading: false,
       loading: false,
+      payVisible: false,
       btnLoading: false
     }
   },
@@ -244,8 +250,11 @@ export default {
           this.downloadLoading = false
         })
     },
-    onChangeStatus(value) {
-      this.getList(1)
+    handleOprate(row) {
+      this.payVisible = true
+      this.$nextTick(() => {
+        this.$refs.payFee && this.$refs.payFee.init(row, 'server')
+      })
     }
   }
 }

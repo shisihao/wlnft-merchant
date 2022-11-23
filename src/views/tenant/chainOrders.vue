@@ -44,6 +44,7 @@
         >
           {{ $t("table.export") }} Excel
         </el-button>
+        <el-button type="primary" @click="onUnderOrders">购买次数</el-button>
       </el-form>
     </div>
 
@@ -51,7 +52,12 @@
       <el-table-column prop="id" label="ID" align="center" />
       <el-table-column prop="order_no" label="订单号" align="center" />
       <el-table-column prop="created_at" label="订单时间" align="center" />
-      <el-table-column prop="month" label="月份" align="center" />
+      <el-table-column prop="month" label="订单信息" align="center">
+        <template slot-scope="{ row }">
+          <div>上链次数：{{ row.num }} </div>
+          <div>总结：{{ row.pay_price }}</div>
+        </template>
+      </el-table-column>s
       <el-table-column header-align="center" label="账户信息">
         <template slot-scope="{ row }">
           <div>收款户名: {{ row.bank_info.account_name }}</div>
@@ -133,18 +139,20 @@
     />
 
     <PayFee v-if="payVisible" ref="payFee" @refreshList="getList(1)" />
+    <UnderOrder v-if="underOrderVisible" ref="underOrder" @refreshList="getList(1)" />
   </div>
 </template>
 
 <script>
 import Pagination from '@/components/Pagination'
 import { getToken, DominKey } from '@/utils/auth'
-import { supplementOrder, supplementFeeExport } from '@/api/tenant'
+import { chainOrders, chainOrdersExport } from '@/api/tenant'
 import PayFee from './components/PayFee.vue'
+import UnderOrder from './components/UnderOrder'
 import { pickerOptions, logOrderStatusOptions } from '@/utils/explain'
 export default {
-  name: 'ServerSupplementaryFee',
-  components: { Pagination, PayFee },
+  name: 'ChainOrders',
+  components: { Pagination, PayFee, UnderOrder },
   data() {
     return {
       // 0-待支付/1-已支付(待审核)/2-审核通过/3-驳回/4-取消
@@ -180,6 +188,7 @@ export default {
         'info'
       ],
       downloadLoading: false,
+      underOrderVisible: false,
       loading: false,
       btnLoading: false,
       payVisible: false
@@ -197,12 +206,10 @@ export default {
       this.loading = loading
       if (page === 1) this.pages.current = page
 
-      supplementOrder({ page, ...this.search, limit: this.pages.limit })
+      chainOrders({ page, ...this.search, limit: this.pages.limit })
         .then((response) => {
           if (response.code !== 0) return
-          this.list = response.data.data.map((v) => {
-            return Object.assign(v, { checked: false })
-          })
+          this.list = response.data.data
           this.pages.total = response.data.list.total
           this.wait_count = response.data.list.wait_count
         })
@@ -210,6 +217,12 @@ export default {
         .finally(() => {
           this.loading = false
         })
+    },
+    onUnderOrders(row) {
+      this.underOrderVisible = true
+      this.$nextTick(() => {
+        this.$refs.underOrder && this.$refs.underOrder.init(row)
+      })
     },
     onChangeDateRange(value) {
       if (Array.isArray(value)) {
@@ -222,7 +235,7 @@ export default {
     },
     onHandleDownload() {
       this.downloadLoading = true
-      supplementFeeExport(this.search)
+      chainOrdersExport(this.search)
         .then(response => {
           location.href = this.domin + response.data.filename
         })
@@ -238,7 +251,7 @@ export default {
     handleOprate(row) {
       this.payVisible = true
       this.$nextTick(() => {
-        this.$refs.payFee && this.$refs.payFee.init(row, 'chain')
+        this.$refs.payFee && this.$refs.payFee.init(row, 'pay')
       })
     }
   }
