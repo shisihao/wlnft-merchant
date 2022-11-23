@@ -28,6 +28,7 @@
     "echarts": "^5.1.2",
     "element-china-area-data": "^5.0.2",
     "element-ui": "2.15.5",
+    "esdk-obs-browserjs": "^3.22.3",
     "file-saver": "2.0.1",
     "fuse.js": "3.4.4",
     "js-cookie": "2.2.0",
