@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 藏品权益列表
+// 纪念品权益列表
 export function goodsdDataList(params) {
   return request.get('/interest/goods_interest', {
     params
@@ -26,7 +26,7 @@ export function interestList() {
   return request.get('/interest/goods_interest/interest/filter')
 }
 
-// 选择藏品列表
+// 选择纪念品列表
 export function goodsList() {
   return request.get('/interest/goods_interest/goods/filter')
 }
@@ -60,7 +60,7 @@ export function giveDataList(params) {
   })
 }
 
-// 权益藏品列表
+// 权益纪念品列表
 export function giveList(params) {
   return request.get('/interest/goods_interest_give/goods/filter', {
     params

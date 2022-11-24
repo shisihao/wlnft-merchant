@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form ref="form" :model="form" :rules="rule">
-      <el-form-item label="藏品编号前缀" prop="name">
+      <el-form-item label="纪念品编号前缀" prop="name">
         <el-input v-model="form.name" />
       </el-form-item>
       <el-form-item>

@@ -108,12 +108,6 @@
         label="中奖人数"
         align="center"
       />
-      <el-table-column
-        prop="integral_price"
-        width="90"
-        label="报名价格"
-        align="center"
-      />
 
       <el-table-column width="70" label="资格开关" align="center">
         <template slot-scope="{ row }">

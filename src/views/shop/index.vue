@@ -70,7 +70,7 @@
       <el-table-column label="商品信息" min-width="180" header-align="center">
         <template slot-scope="{ row }">
           <!-- <div>分类：<el-tag effect="plain" :type="row.cate_id | paraphrase(shopCateOptions, 'value', 'type')">{{ row.cate_id | paraphrase(shopCateOptions) }}</el-tag></div> -->
-          <div v-if="row.type === 'voucher'">兑换藏品数量：{{ row.goods_num || 0 }}</div>
+          <div v-if="row.type === 'voucher'">兑换纪念品数量：{{ row.goods_num || 0 }}</div>
           <template v-else>
             <div>价格：￥{{ row.cny_price || 0 | moneyToFormat }}</div>
           </template>
@@ -134,7 +134,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import Pagination from '@/components/Pagination'
 import AddOrUpdate from './components/AddOrUpdate'
 import { shopCateOptions, whetherOptions, shopTypeOptions } from '@/utils/explain'
@@ -179,7 +178,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['integral']),
     swiper() {
       return function(v = 0) {
         return this.$refs[`mySwiper${v}`].$swiper

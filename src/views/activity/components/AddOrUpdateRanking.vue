@@ -87,7 +87,7 @@
             </el-select>
           </el-form-item>
         </div>
-        <el-form-item label="参与资格藏品" prop="condition.condition_serial">
+        <el-form-item label="参与资格纪念品" prop="condition.condition_serial">
           <el-select v-model="form.condition.condition_serial" filterable multiple clearable popper-class="popover-box" style="width: 100%;" placeholder="请输入关键字搜索" :filter-method="filterMethodSelect">
             <el-option
               v-for="(item, index) in goodsOptions"

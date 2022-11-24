@@ -36,7 +36,7 @@
             >
           </div>
           <div class="notice">
-            注意：建议藏品图片尺寸 750*750px
+            注意：建议纪念品图片尺寸 750*750px
           </div>
         </el-form-item>
         <el-form-item label="活动名称" prop="name">
@@ -101,9 +101,6 @@
         </el-form-item>
         <el-form-item label="中奖人数" prop="num">
           <el-input-number v-model="form.num" :precision="0" :min="0" :disabled="!!form.id" />
-        </el-form-item>
-        <el-form-item label="报名价格" prop="integral_price">
-          <el-input-number v-model="form.integral_price" :precision="2" :min="0" :disabled="!!form.id" />
         </el-form-item>
         <el-form-item label="排序" prop="sort">
           <el-input-number v-model="form.sort" :min="0" :precision="0" />
@@ -172,7 +169,7 @@ export default {
       editTinymceVisible: false,
       typeOptions: [
         { label: '盲盒', value: 'box' },
-        { label: '藏品', value: 'goods' }
+        { label: '纪念品', value: 'goods' }
       ],
       currentName: '',
       activitiesOptions: [],
@@ -194,7 +191,6 @@ export default {
         open_time: '',
         target_type: '',
         num: 0,
-        integral_price: 0,
         desc: '',
         detail: ''
       },
@@ -216,9 +212,6 @@ export default {
           { validator: validateTime, trigger: ['blur', 'change'] }
         ],
         num: [
-          { required: true, message: '不能为空', trigger: ['blur', 'change'] }
-        ],
-        integral_price: [
           { required: true, message: '不能为空', trigger: ['blur', 'change'] }
         ],
         desc: [

@@ -15,7 +15,7 @@
         label-width="130px"
         label-position="left"
       >
-        <el-form-item label="藏品" prop="goods_id">
+        <el-form-item label="纪念品" prop="goods_id">
           <el-select
             v-model="form.goods_id"
             class="select-input"
@@ -260,7 +260,7 @@ export default {
             }
           })
 
-          if (data.goods_id) { // 藏品回显
+          if (data.goods_id) { // 纪念品回显
             this.interestGoodMetaOptions.push({
               label: data.goods.name,
               value: data.goods.id
@@ -363,7 +363,7 @@ export default {
         if (valid) {
           this.btnLoading = true
           const data = JSON.parse(JSON.stringify(this.form))
-          // 当有 实体商品折扣购 && 指定藏品 时
+          // 当有 实体商品折扣购 && 指定纪念品 时
           if (data.interests?.entity?.type === 'appoint') {
             const entityGoodsArr = []
             for (const [key, value] of Object.entries(this.form.goodsFrequency)) {

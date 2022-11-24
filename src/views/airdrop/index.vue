@@ -3,7 +3,7 @@
     <div class="filter-container">
       <el-form :inline="true" :model="search">
         <el-form-item label="关键词">
-          <el-input v-model="search.keywords" style="width: 300px;" placeholder="藏品编号/藏品名称/发行方/合约地址" clearable @clear="getList(1)" @keyup.enter.native="getList(1)" />
+          <el-input v-model="search.keywords" style="width: 300px;" placeholder="纪念品编号/纪念品名称/发行方/合约地址" clearable @clear="getList(1)" @keyup.enter.native="getList(1)" />
         </el-form-item>
         <el-form-item label="是否售罄">
           <el-select v-model="search.sellout" clearable @change="getList(1)">
@@ -23,7 +23,7 @@
             @change="onChangeDateRange"
           />
         </el-form-item>
-        <el-form-item label="藏品标签">
+        <el-form-item label="纪念品标签">
           <el-select v-model="search.tags" multiple clearable @change="getList(1)">
             <el-option
               v-for="item in tagsOptions"
@@ -41,11 +41,6 @@
         <el-form-item label="是否同步甘文交">
           <el-select v-model="search.sync_gwj_status" clearable @change="getList(1)">
             <el-option v-for="item in sync_status_options" :key="item.value" :label="item.label" :value="item.value" />
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="`是否奖励${integral}`">
-          <el-select v-model="search.is_integral_reward" clearable @change="getList(1)">
-            <el-option v-for="item in whetherOptions" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
         <el-button icon="el-icon-search" @click="getList(1)">
@@ -70,7 +65,7 @@
       />
       <el-table-column
         prop="images"
-        label="藏品图片"
+        label="纪念品图片"
         width="365"
         header-align="center"
       >
@@ -92,7 +87,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="藏品信息"
+        label="纪念品信息"
         min-width="180"
         header-align="center"
       >
@@ -109,13 +104,10 @@
           <div>
             价格：¥{{ row.cny_price || 0.00 }}
           </div>
-          <div>
-            {{ integral }}：{{ row.integral_price || 0.00 }}
-          </div>
         </template>
       </el-table-column>
       <el-table-column
-        label="藏品信息"
+        label="纪念品信息"
         width="180"
         header-align="center"
       >
@@ -167,14 +159,6 @@
       >
         <template slot-scope="{ row }">
           <div>{{ row.hash || '-' }}</div>
-        </template>
-      </el-table-column>
-      <el-table-column
-        :label="`奖励${integral}`"
-        header-align="center"
-      >
-        <template slot-scope="{ row }">
-          <div>{{ row.integral_reward }}</div>
         </template>
       </el-table-column>
       <el-table-column
@@ -255,7 +239,6 @@ import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import 'swiper/swiper-bundle.css'
 import AirdropUpdate from './components/AirdropUpdate'
 import AirdropLog from './components/AirdropLog'
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'Airdrop',
@@ -280,8 +263,7 @@ export default {
         sync_gwj_status: '',
         start_time: '',
         end_time: '',
-        tags: [],
-        is_integral_reward: ''
+        tags: []
       },
       pages: {
         total: 0,
@@ -289,7 +271,7 @@ export default {
         current: 1
       },
       typeOptions: [
-        { label: '空投藏品', value: 2, type: 'primary' },
+        { label: '空投纪念品', value: 2, type: 'primary' },
         { label: '资格券', value: 5, type: 'warning' }
       ],
       list: [],
@@ -312,7 +294,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['integral']),
     swiper() {
       return function(v = 0) {
         return this.$refs[`mySwiper${v}`].$swiper

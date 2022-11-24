@@ -64,7 +64,7 @@
       </el-select>
     </el-form-item>
     <div class="notice">
-      注意：商品类型为兑换，必须选择指定藏品
+      注意：商品类型为兑换，必须选择指定纪念品
     </div>
     <div v-if="form.type === 'common'">
       <el-form-item label="人民币价格" prop="cny_price">
@@ -77,7 +77,7 @@
       </el-form-item>
     </div> -->
     <div v-else-if="form.type === 'voucher'">
-      <el-form-item label="兑换藏品数量" prop="goods_num">
+      <el-form-item label="兑换纪念品数量" prop="goods_num">
         <el-input-number v-model="form.goods_num" controls-position="right" :precision="0" :min="0" />
       </el-form-item>
       <el-form-item label="是否销毁" prop="is_destroy">

@@ -26,7 +26,7 @@
       />
       <el-table-column
         prop="goods_num"
-        label="藏品数量"
+        label="纪念品数量"
         align="center"
       />
       <el-table-column

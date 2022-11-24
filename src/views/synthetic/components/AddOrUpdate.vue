@@ -20,12 +20,12 @@
             <img v-show="form.cover.filename" :src="form.cover.filename && domin + form.cover.filename" class="avatar">
             <i v-show="!form.cover.filename" class="el-icon-plus avatar-uploader-icon" />
           </custom-upload>
-          <div class="notice">注意：建议藏品图片尺寸 750*750px</div>
+          <div class="notice">注意：建议纪念品图片尺寸 750*750px</div>
         </el-form-item>
         <el-form-item label="活动标题" prop="title">
           <el-input v-model="form.title" placeholder="活动标题" />
         </el-form-item>
-        <el-form-item label="合成藏品" prop="goods_id">
+        <el-form-item label="合成纪念品" prop="goods_id">
           <el-select
             v-model="form.goods_id"
             filterable
@@ -201,7 +201,7 @@ export default {
       editTinymceVisible: false,
       addFormulaShow: false,
       typeOptions: typeOptions.concat([
-        { label: '空投藏品', value: 2, type: 'danger' }
+        { label: '空投纪念品', value: 2, type: 'danger' }
       ]),
       currentName: '',
       synthesisOptions: [],
@@ -348,7 +348,7 @@ export default {
     onAddFormulaShow() {
       // 添加条件
       if (!this.form.goods_id) {
-        this.$message.warning('请先选择`合成藏品`')
+        this.$message.warning('请先选择`合成纪念品`')
         return false
       }
 
@@ -387,7 +387,7 @@ export default {
             return a.concat(b.goods_id)
           }, [])
           if (haveFormula.includes(this.form.goods_id)) {
-            this.$message.error('合成条件中不能有合成藏品')
+            this.$message.error('合成条件中不能有合成纪念品')
             return false
           }
           this.btnLoading = true

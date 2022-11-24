@@ -183,10 +183,7 @@
               价格：¥{{ row.cny_price || 0 | moneyToFormat }}
             </div>
             <div>
-              {{ integral }}：{{ row.integral_price || 0 }}
-            </div>
-            <div>
-              藏品数量：{{ row.goods_num || 0 }}
+              纪念品数量：{{ row.goods_num || 0 }}
             </div>
             <div>购买量：{{ row.num }}</div>
             <div>
@@ -283,7 +280,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import {
   pickerOptions,
   payOptions,
@@ -323,7 +319,7 @@ export default {
       },
       dateRangeValue: [],
       pickerOptions,
-      payOptions: payOptions.concat(payTypeOptions).concat({ label: '藏品兑换', value: 'voucherpay' }),
+      payOptions: payOptions.concat(payTypeOptions).concat({ label: '纪念品兑换', value: 'voucherpay' }),
       shopStatusOptions,
       typeOptions,
       loading: false,
@@ -339,9 +335,7 @@ export default {
       }
     }
   },
-  computed: {
-    ...mapGetters(['integral'])
-  },
+
   created() {
     this.init()
   },

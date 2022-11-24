@@ -27,8 +27,8 @@
 </template>
 
 <script>
-import { getToken, OssKey, setToken } from '@/utils/auth'
-import { getQiniuToken } from '@/api/qiniu'
+import { getToken, OssKey } from '@/utils/auth'
+// import { getQiniuToken } from '@/api/qiniu'
 import CalcVideo from '@/utils/calcVideo'
 import { mapGetters } from 'vuex'
 import ObsClient from 'esdk-obs-browserjs/src/obs'

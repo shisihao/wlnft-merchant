@@ -55,7 +55,7 @@
           <div class="reward-list-wrap">
             <div v-for="(item, index) in form.reward" :key="index" class="reward-list">
               <span style="width:20%">
-                <el-tag type="success">{{ item.goods_id ? '藏品' : item.box_id ? '盲盒' : typeObj[item.wallet_type] }}
+                <el-tag type="success">{{ item.goods_id ? '纪念品' : item.box_id ? '盲盒' : typeObj[item.wallet_type] }}
                 </el-tag>
               </span>
               <span style="width:17%">{{ item.title }}</span>
@@ -87,7 +87,7 @@
                   />
                 </el-select>
               </el-form-item>
-              <el-form-item v-if="rewardValue === 'goods_id'" required label="指定藏品">
+              <el-form-item v-if="rewardValue === 'goods_id'" required label="指定纪念品">
                 <el-select
                   v-model="selectRewardList.goods_id"
                   placeholder="请选择"
@@ -156,7 +156,7 @@
         <div class="condition-wrap">
           <h4 v-if="form.condition.length">抽奖条件列表</h4>
           <div v-if="form.condition.length" class="reward-list2">
-            <span class="item">藏品编号</span>
+            <span class="item">纪念品编号</span>
             <span class="item">类型</span>
             <span class="item">满足数量</span>
             <span class="item">抽奖次数</span>
@@ -182,7 +182,7 @@
               <div slot="header" class="clearfix">
                 <span>抽奖条件</span>
               </div>
-              <el-form-item label="铸造藏品" required>
+              <el-form-item label="铸造纪念品" required>
                 <el-select
                   v-model="conditionObj.serial"
                   filterable
@@ -308,7 +308,7 @@ export default {
       newMetaGoodsOptions: [],
       rewardValue: '',
       payTypeOptions: [
-        { label: '藏品', value: 'goods_id' },
+        { label: '纪念品', value: 'goods_id' },
         { label: '盲盒', value: 'box_id' },
 
         { label: '铸造券', value: 'cast' },
@@ -545,7 +545,7 @@ export default {
       this.selectRewardList.reward_num = 1
       this.selectRewardList.stock = 0
     },
-    // 过滤铸造藏品
+    // 过滤铸造纪念品
     filterCondition(val) {
       if (val === '') return
       this.form.condition.forEach(v => {

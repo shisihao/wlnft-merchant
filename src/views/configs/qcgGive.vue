@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form ref="form" :model="form" :rules="rules" label-width="120px">
-      <el-form-item label="铸造藏品列表" prop="serial">
+      <el-form-item label="铸造纪念品列表" prop="serial">
         <el-select
           v-model="form.serial"
           filterable
@@ -26,7 +26,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item v-if="form.serial.length" label="转赠藏品编号">
+      <el-form-item v-if="form.serial.length" label="转赠纪念品编号">
         <el-tag v-for="(item,index) in form.serial" :key="index" closable style="margin-right:10px;margin-bottom:10px" @close="handleRemoveTag(index)">{{ item }}</el-tag>
       </el-form-item>
       <el-form-item>

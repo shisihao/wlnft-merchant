@@ -56,10 +56,6 @@ export default {
           cny: {
             yesterday: 0,
             total: 0
-          },
-          integral: {
-            total: 0,
-            yesterday: 0
           }
         },
         collect: {
@@ -73,12 +69,6 @@ export default {
           off: 0,
           sell_out: 0,
           total: 0
-        },
-
-        integral: {
-          income: 0,
-          balance: 0.00,
-          expend: 0.00
         }
       }
     }

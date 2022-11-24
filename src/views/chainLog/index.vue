@@ -97,8 +97,8 @@ export default {
       },
       typeOptions: [
         { label: '全部', value: '' },
-        { label: '藏品铸造', value: 'cast' },
-        { label: '藏品转赠', value: 'give' }
+        { label: '纪念品铸造', value: 'cast' },
+        { label: '纪念品转赠', value: 'give' }
       ]
     }
   },

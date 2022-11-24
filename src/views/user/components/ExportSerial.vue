@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="指定藏品导出" :visible.sync="visible" :close-on-click-modal="false" :close-on-press-escape="false" @closed="onClose()">
+  <el-dialog title="指定纪念品导出" :visible.sync="visible" :close-on-click-modal="false" :close-on-press-escape="false" @closed="onClose()">
     <el-form
       ref="form"
       :model="form"
@@ -8,7 +8,7 @@
       label-width="100px"
       @submit.native.prevent
     >
-      <el-form-item label="指定藏品" prop="serial">
+      <el-form-item label="指定纪念品" prop="serial">
         <el-tag
           v-for="(item, index) in form.serial"
           :key="index"
@@ -29,7 +29,7 @@
         />
         <el-button v-else size="small" @click="showInput">+ 添加</el-button>
       </el-form-item>
-      <el-form-item label="藏品编号">
+      <el-form-item label="纪念品编号">
         <el-tag
           v-for="(item, index) in form.goods_num"
           :key="index"
@@ -126,7 +126,7 @@ export default {
     onAddserial() {
       const inputValue = this.inputValue
       if (this.form.serial.includes(inputValue)) {
-        return this.$message.warning('该藏品已添加')
+        return this.$message.warning('该纪念品已添加')
       }
 
       if (inputValue) {

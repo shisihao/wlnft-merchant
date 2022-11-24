@@ -63,6 +63,10 @@
       :add-or-update-visible.sync="addOrUpdateVisible"
       @refreshList="getList()"
     />
+
+    <preview3d
+      ref="preview3d"
+    />
   </div>
 </template>
 
@@ -70,10 +74,11 @@
 import { dataList, deleteData } from '@/api/exclusiveGoods'
 import AddOrUpdate from './components/AddOrUpdate'
 import Pagination from '@/components/Pagination'
+import Preview3d from './components/Preview3d'
 
 export default {
   name: 'ExclusiveGoods',
-  components: { Pagination, AddOrUpdate },
+  components: { Pagination, AddOrUpdate, Preview3d },
   data() {
     return {
       list: [],
@@ -115,6 +120,11 @@ export default {
       this.addOrUpdateVisible = true
       this.$nextTick(() => {
         this.$refs.addOrUpdate && this.$refs.addOrUpdate.init(data)
+      })
+    },
+    onPreview3d(data) {
+      this.$nextTick(() => {
+        this.$refs.preview3d && this.$refs.preview3d.init(data)
       })
     },
     onDelete(row) {

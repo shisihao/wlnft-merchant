@@ -15,7 +15,6 @@
 
 <script>
 import { openAmount, putOpenAmount } from '@/api/configs'
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'OpenAmount',
@@ -33,7 +32,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['integral'])
+
   },
   created() {
     this.init()

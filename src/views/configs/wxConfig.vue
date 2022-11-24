@@ -1,11 +1,14 @@
 <template>
   <div class="app-container">
     <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-      <el-form-item :label="`${integral}单价`" prop="value">
-        <el-input-number v-model="form.value" :placeholder="`${integral}单价`" :precision="2" clearable />
+      <el-form-item label="APPID" prop="appid">
+        <el-input v-model="form.appid" placeholder="请输入" />
+      </el-form-item>
+      <el-form-item label="秘钥" prop="secret">
+        <el-input v-model="form.secret" placeholder="请输入" type="textarea" :rows="10" />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" :loading="btnLoading" @click="onFormSubmit()">
+        <el-button type="primary" :loading="btnLoading" @click="onFormSubmit">
           {{ $t('table.confirm') }}
         </el-button>
       </el-form-item>
@@ -14,26 +17,22 @@
 </template>
 
 <script>
-import { putIntegralPrice, integralPrice } from '@/api/configs'
-import { mapGetters } from 'vuex'
+import { wxConfig, putWxConfig } from '@/api/configs'
 
 export default {
-  name: 'OnChain',
+  name: 'WxConfig',
   data() {
     return {
       btnLoading: false,
       form: {
-        value: 0
+        appid: '',
+        secret: ''
       },
       rules: {
-        value: [
-          { required: true, message: '不能为空', trigger: 'blur' }
-        ]
+        appid: [{ required: true, message: '请输入', trigger: 'blur' }],
+        secret: [{ required: true, message: '请输入', trigger: 'blur' }]
       }
     }
-  },
-  computed: {
-    ...mapGetters(['integral'])
   },
   created() {
     this.init()
@@ -43,19 +42,15 @@ export default {
       this.getList()
     },
     getList() {
-      integralPrice()
-        .then(response => {
-          this.form.value = response.data.value
-        })
-        .catch(({ msg = '加载失败' }) => {
-          this.$message.error(msg)
-        })
+      wxConfig().then(response => {
+        this.form = response.data.value
+      })
     },
     onFormSubmit() {
       this.$refs['form'].validate(valid => {
         if (valid) {
           this.btnLoading = true
-          putIntegralPrice(this.form)
+          putWxConfig(this.form)
             .then(({ msg }) => {
               this.$message.success(msg)
               this.getList()
@@ -72,8 +67,8 @@ export default {
 }
 </script>
 
-<style scoped>
-.el-input-number{
-  width: 200px;
+<style  scoped>
+.app-container{
+  width: 800px;
 }
 </style>

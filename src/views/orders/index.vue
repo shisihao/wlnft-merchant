@@ -50,11 +50,11 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="藏品编号">
+        <el-form-item label="纪念品编号">
           <el-input
             v-model="search.serial"
             style="width: 200px"
-            placeholder="藏品编号"
+            placeholder="纪念品编号"
             clearable
             @clear="getList(1)"
             @keyup.enter.native="getList(1)"
@@ -224,7 +224,6 @@
                     名称：{{ row.goods.name || '' }}
                   </div>
                   <div>价格：¥ {{ row.cny_price || 0.0 }}</div>
-                  <div>{{ integral }}：{{ row.integral_price || 0.0 }}</div>
                   <div>数量：x{{ row.num }}</div>
                 </div>
               </div>
@@ -255,14 +254,10 @@
           <el-table-column width="180" header-align="center">
             <template slot-scope="{ row }">
               <div>支付价格：¥ {{ row.cny_price || 0.0 }}</div>
-              <div>支付{{ integral }}：{{ row.integral_price || 0.0 }}</div>
               <div>
                 支付方式：
                 <span v-if="row.cny_price > 0">
                   <svg-icon :icon-class="row.pay_type | paraphrase(payOptions, 'value', 'value')" /> {{ row.pay_type | paraphrase(payOptions) }}
-                </span>
-                <span v-if="row.integral_price > 0">
-                  <svg-icon icon-class="hd" /> {{ integral }}
                 </span>
               </div>
             </template>
@@ -350,11 +345,9 @@
                 >
                   <div>
                     {{
-                      [1].includes(row.trade_status)
-                        ? `${integral}链上交易失败`
-                        : [2].includes(row.trade_status)
-                          ? '藏品链上交易失败'
-                          : `${integral}、藏品链上交易失败`
+                      [2].includes(row.trade_status)
+                        ? '纪念品链上交易失败'
+                        : `纪念品链上交易失败`
                     }}
                   </div>
                   <div slot="reference">
@@ -396,7 +389,7 @@
                   plain
                   type="primary"
                   @click="onSafe(row)"
-                >藏品交易</el-button>
+                >纪念品交易</el-button>
                 <el-button
                   v-if="[2, 3].includes(row.trade_status)"
                   plain
@@ -491,7 +484,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['info', 'integral'])
+    ...mapGetters(['info'])
   },
   created() {
     this.init()
@@ -579,8 +572,8 @@ export default {
     },
     onSafe(row) {
       this.$confirm(
-        `确定对订单[(#${row.id})][藏品交易异常]进行操作?`,
-        '藏品交易异常',
+        `确定对订单[(#${row.id})][纪念品交易异常]进行操作?`,
+        '纪念品交易异常',
         {
           confirmButtonText: '确定',
           cancelButtonText: '取消',

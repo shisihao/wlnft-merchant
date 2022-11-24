@@ -149,12 +149,6 @@
         prop="commodity_price"
       /> -->
       <el-table-column
-        :label="integral"
-        width="100"
-        align="center"
-        prop="integral_price"
-      />
-      <el-table-column
         prop="sort"
         label="申请状态"
         width="100"
@@ -213,7 +207,6 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
 import { pickerOptions, handleOptions } from '@/utils/explain'
 import { dataList, refundSuccess, refundAudit } from '@/api/orderRefund'
 import Pagination from '@/components/Pagination/index'
@@ -263,7 +256,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['integral']),
     swiper() {
       return function(v = 0) {
         return this.$refs[`mySwiper${v}`].$swiper

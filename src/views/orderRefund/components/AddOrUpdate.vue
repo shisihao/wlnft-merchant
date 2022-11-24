@@ -60,7 +60,6 @@ export default {
             profit: ''
           },
           pay_price: 0,
-          integral_deduction: 0,
           total_price: 0,
           order_no: 0,
           pay_type: ''

@@ -9,7 +9,7 @@ export default class GoodsSku {
   stock = 0
   // 商品劵数量
   commodity_price = 0
-  // 藏品数量
+  // 纪念品数量
   goods_num=0
   // sku规格属性
   specs_properties = []

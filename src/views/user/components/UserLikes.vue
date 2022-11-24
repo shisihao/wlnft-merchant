@@ -56,7 +56,6 @@
       >
         <template slot-scope="{ row }">
           <div>人民币价格:{{ row.goods.cny_price || 0.00 }}</div>
-          <div>{{ integral }}价格:{{ row.goods.integral_price || 0.00 }}</div>
         </template>
       </el-table-column>
       <el-table-column
@@ -78,7 +77,6 @@
 import Pagination from '@/components/Pagination'
 import { DominKey, getToken } from '@/utils/auth'
 import { userLikes } from '@/api/user'
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'UserLikes',
@@ -96,7 +94,7 @@ export default {
       },
       listOptions: [
         { label: '全部', value: '' },
-        { label: '藏品', value: 'goods' },
+        { label: '纪念品', value: 'goods' },
         { label: '盲盒', value: 'blind_box' }
       ],
       form: {
@@ -106,7 +104,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['integral'])
   },
   methods: {
     init(data) {

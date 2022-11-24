@@ -94,7 +94,7 @@ router.beforeEach(async(to, from, next) => {
 
               if (store.getters.info.shop_status === 0) {
                 // 过滤掉商城相关的路由
-                const filterRoutes = ['orderRefund', 'refundTag', 'entityOrders', 'entityGoods', 'goodsCategory', 'delivery', 'integralReward', 'qualification']
+                const filterRoutes = ['orderRefund', 'refundTag', 'entityOrders', 'entityGoods', 'goodsCategory', 'delivery', 'qualification']
                 serverRoute = serverRoute.filter(menu => menu.alias !== 'shoppe')
                 serverRoute = serverRoute.map(item => {
                   if (Array.isArray(item.list)) {

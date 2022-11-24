@@ -19,7 +19,7 @@
             <img v-if="form.image" :src="domin + form.image" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon" />
           </custom-upload>
-          <div class="notice">注意：建议藏品图片尺寸 750*750px</div>
+          <div class="notice">注意：建议纪念品图片尺寸 750*750px</div>
         </el-form-item>
         <el-form-item label="活动标题" prop="title">
           <el-input v-model="form.title" placeholder="请输入活动标题" />
@@ -64,14 +64,6 @@
               :disabled="oldfrom.id>0&&oldfrom.reward.stock>0"
             />
           </el-form-item>
-          <el-form-item :label="integral" prop="reward.wallet.integral">
-            <el-input-number
-              v-model="form.reward.wallet.integral"
-              :min="0"
-              :placeholder="integral"
-              :disabled="oldfrom.id>0&&oldfrom.reward.stock>0"
-            />
-          </el-form-item>
           <el-form-item label="商品券" prop="reward.wallet.commodity">
             <el-input-number
               v-model="form.reward.wallet.commodity"
@@ -80,11 +72,11 @@
               :disabled="oldfrom.id>0&&oldfrom.reward.stock>0"
             />
           </el-form-item>
-          <div class="notice notice-warning">注意：铸造券、兑换券、{{ integral }}、商品券填0代表不添加该奖励</div>
-          <el-form-item label="藏品/盲盒" prop="reward">
+          <div class="notice notice-warning">注意：铸造券、兑换券、商品券填0代表不添加该奖励</div>
+          <el-form-item label="纪念品/盲盒" prop="reward">
             <div v-for="(item, index) in form.reward.goods" :key="item.goods_id" class="box-wrapper">
               <span>
-                <el-tag type="primary">藏品</el-tag>
+                <el-tag type="primary">纪念品</el-tag>
                 <el-tag type="primary" effect="plain">
                   {{ item.goods_id | paraphrase(goodsOptions, 'value', 'serial') }}
                 </el-tag>
@@ -138,7 +130,7 @@
 
             <div v-if="[0, 1].includes(good.type)">
               <div v-if="good.type === 0" class="add-box">
-                藏品：
+                纪念品：
                 <el-select
                   v-model="good.goods_id"
                   filterable
@@ -211,7 +203,7 @@
             </div>
             <div v-else>
               <div v-show="!disabledStock">
-                <el-button type="primary" plain :disabled="oldfrom.id>0&&oldfrom.reward.stock>0" @click="onAddGoods(0)">+ 藏品</el-button>
+                <el-button type="primary" plain :disabled="oldfrom.id>0&&oldfrom.reward.stock>0" @click="onAddGoods(0)">+ 纪念品</el-button>
                 <el-button type="warning" plain :disabled="oldfrom.id>0&&oldfrom.reward.stock>0" @click="onAddGoods(1)">+ 盲盒</el-button>
               </div>
             </div>
@@ -270,7 +262,6 @@ import CustomUpload from '@/components/Upload/CustomUpload'
 import EditTinymce from './EditTinymce'
 import { DominKey, getToken } from '@/utils/auth'
 import { goodsList, boxList, addOrUpdateShare, shareDetail } from '@/api/activity'
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'AddOrUpdateWelfare',
@@ -320,7 +311,6 @@ export default {
           wallet: {
             cast: 0,
             voucher: 0,
-            integral: 0,
             commodity: 0
           }
         },
@@ -366,9 +356,6 @@ export default {
         'reward.wallet.voucher': [
           { required: true, message: '不能为空', trigger: ['blur', 'change'] }
         ],
-        'reward.wallet.integral': [
-          { required: true, message: '不能为空', trigger: ['blur', 'change'] }
-        ],
         'reward.wallet.commodity': [
           { required: true, message: '不能为空', trigger: ['blur', 'change'] }
         ],
@@ -379,7 +366,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['integral']),
     surplusStock() {
       const boxStock = this.boxOptions.find(v => v.value === this.good.box_id)?.stock
       const goodStock = this.goodsOptions.find(v => v.value === this.good.goods_id)?.stock

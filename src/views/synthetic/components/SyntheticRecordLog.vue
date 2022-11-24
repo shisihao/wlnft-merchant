@@ -49,8 +49,8 @@
               </el-image>
               <div style="margin-left: 10px">
                 <div>#{{ row.goods.id || '' }}</div>
-                <div>藏品编号：{{ row.goods.serial || '' }}</div>
-                <div>藏品名称：{{ row.goods.name || '' }}</div>
+                <div>纪念品编号：{{ row.goods.serial || '' }}</div>
+                <div>纪念品名称：{{ row.goods.name || '' }}</div>
               </div>
             </div>
           </template>

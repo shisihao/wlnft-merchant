@@ -11,7 +11,7 @@
             </section>
             <section :style="`color: ${colorIndex === 1 ? color : defaultColor}`">
               <div class="iconfont icon-tab_icon_cangpin" />
-              藏品
+              纪念品
             </section>
             <section :style="`color: ${colorIndex === 2 ? color : defaultColor}`">
               <div class="iconfont icon-tab_icon_mine" />

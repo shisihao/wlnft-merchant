@@ -462,14 +462,14 @@ export function blacklist(params) {
   })
 }
 
-// 顶象开关配置
-export function dxConfig() {
-  return request.get('/configs/dx_config')
+// 微信开关配置
+export function wxConfig() {
+  return request.get('/configs/wx_config')
 }
 
-// 顶象开关配置
-export function putDxConfig(data) {
-  return request.put('/configs/dx_config', {
+// 微信开关配置
+export function putWxConfig(data) {
+  return request.put('/configs/wx_config', {
     ...data
   })
 }
@@ -486,7 +486,7 @@ export function putQcgGive(data) {
   })
 }
 
-// 铸造藏品列表
+// 铸造纪念品列表
 export function castGoodsList(params) {
   return request.get('/public/filter/cast_goods', {
     params
@@ -561,35 +561,35 @@ export function setSlider(data) {
   })
 }
 
-// 获取藏品编号前缀配置
+// 获取纪念品编号前缀配置
 export function getPrefix() {
   return request.get('/configs/serial')
 }
-// 设置藏品编号前缀配置
+// 设置纪念品编号前缀配置
 export function setPrefix(data) {
   return request.put('/configs/serial', {
     ...data
   })
 }
 
-// 视频藏品配置
+// 视频纪念品配置
 export function videoSeconds() {
   return request.get('/configs/video_seconds')
 }
 
-// 视频藏品配置
+// 视频纪念品配置
 export function putVideoSeconds(data) {
   return request.put('/configs/video_seconds', {
     ...data
   })
 }
 
-// 视频藏品配置
+// 视频纪念品配置
 export function downloadImage() {
   return request.get('/configs/download_image')
 }
 
-// 视频藏品配置
+// 视频纪念品配置
 export function putDownloadImage(data) {
   return request.put('/configs/download_image', {
     ...data

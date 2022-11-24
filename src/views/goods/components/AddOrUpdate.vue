@@ -2,8 +2,8 @@
   <el-dialog top="30px" width="1000px" :title="form.id ? $t('table.edit') : $t('table.add')" :visible.sync="visible" :close-on-click-modal="false" :close-on-press-escape="false" @closed="onClose()">
     <el-form ref="form" :model="form" :rules="rules" label-width="160px">
       <div v-if="!form.id">
-        <el-form-item label="铸造藏品" prop="cast_goods_id">
-          <el-select v-model="form.cast_goods_id" filterable placeholder="请选择铸造藏品" :disabled="!!form.id" @change="changeCast">
+        <el-form-item label="铸造纪念品" prop="cast_goods_id">
+          <el-select v-model="form.cast_goods_id" filterable placeholder="请选择铸造纪念品" :disabled="!!form.id" @change="changeCast">
             <el-option v-for="(item, index) in castOptions" :key="index" :label="item.label" :value="item.value">
               <span>#{{ item.value }}</span>
               <el-image class="good-img" fit="cover" :src="item.image && domin + item.image" />
@@ -13,20 +13,20 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="铸造藏品库存" prop="">
+        <el-form-item label="铸造纪念品库存" prop="">
           <el-input-number v-model="stock" disabled :precision="0" :min="0" />
         </el-form-item>
       </div>
-      <el-form-item label="藏品名称" prop="name">
-        <el-input v-model="form.name" disabled placeholder="藏品名称" />
+      <el-form-item label="纪念品名称" prop="name">
+        <el-input v-model="form.name" disabled placeholder="纪念品名称" />
       </el-form-item>
-      <el-form-item label="藏品类型" prop="type">
+      <el-form-item label="纪念品类型" prop="type">
         <el-select v-model="form.type" :disabled="!!form.id" clearable placeholder="请选择">
           <el-option v-for="(item, index) in typeOptions" :key="index" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
       <div v-if="[0].includes(form.type)">
-        <el-form-item label="资格券藏品" prop="condition_goods_id">
+        <el-form-item label="资格券纪念品" prop="condition_goods_id">
           <el-select v-model="form.condition_goods_id" clearable placeholder="(非必选)">
             <el-option v-for="(item, index) in conditionOptions" :key="index" :label="item.label" :value="item.value" />
           </el-select>
@@ -53,7 +53,7 @@
           </el-form-item>
         </div>
       </div>
-      <el-form-item label="藏品标签" prop="tags">
+      <el-form-item label="纪念品标签" prop="tags">
         <el-select v-model="form.tags" style="width: 100%" multiple clearable placeholder="请选择">
           <el-option v-for="(item, index) in tagsOptions" :key="index" :disabled="form.tags.length >= 3" :label="item.label" :value="item.value" />
         </el-select>
@@ -150,7 +150,7 @@
           </div>
         </el-form-item>
       </div>
-      <el-form-item label="藏品图片" prop="images">
+      <el-form-item label="纪念品图片" prop="images">
         <div class="filter-list-box">
           <div v-for="(item, index) in form.images" :key="index" class="upload-images">
             <el-image :src="item && domin + item" class="upload-image" fit="cover" @click="onPicturePreview(item)" />
@@ -164,7 +164,7 @@
           </div>
         </div>
       </el-form-item>
-      <el-form-item label="藏品展示图" prop="show_image">
+      <el-form-item label="纪念品展示图" prop="show_image">
         <div class="filter-list-box">
           <div v-if="!!form.show_image" class="upload-images">
             <el-image :src="form.show_image && domin + form.show_image" class="upload-image" fit="cover" @click="onPicturePreview(form.author_avatar)" />
@@ -178,7 +178,7 @@
           </div>
         </div>
       </el-form-item>
-      <el-form-item label="藏品分类" prop="cate_id">
+      <el-form-item label="纪念品分类" prop="cate_id">
         <el-select v-model="form.cate_id" clearable placeholder="请选择">
           <el-option v-for="(item, index) in cateOptions" :key="index" :label="item.label" :value="item.value" />
         </el-select>
@@ -218,15 +218,9 @@
       <el-form-item label="人民币价格" prop="cny_price">
         <el-input-number v-model="form.cny_price" :precision="2" :min="0" placeholder="请输入人民币价格" />
       </el-form-item>
-      <el-form-item :label="`${integral}价格`" prop="integral_price">
-        <el-input-number v-model="form.integral_price" :precision="2" :min="0" :placeholder="`请输入${integral}价格`" />
-      </el-form-item>
       <el-divider />
       <el-form-item label="限购数量" prop="limit_num">
         <el-input-number v-model="form.limit_num" :precision="0" :min="1" placeholder="请输入限购数量" />
-      </el-form-item>
-      <el-form-item :label="`奖励${integral}`" prop="integral_reward">
-        <el-input-number v-model="form.integral_reward" :precision="0" :min="0" :placeholder="`请输入奖励${integral}价格`" />
       </el-form-item>
       <el-form-item label="优先购库存" prop="prior_stock">
         <el-input-number v-model="form.prior_stock" :disabled="!!form.id" :precision="0" :min="0" :step="1" placeholder="请输入优先购库存" />
@@ -311,7 +305,6 @@ import { addOrUpdate, goodsItem, conditionList } from '@/api/collection'
 import { DominKey, getToken } from '@/utils/auth'
 import ElImageViewer from 'element-ui/packages/image/src/image-viewer'
 import { pickerOptions, typeOptions } from '@/utils/explain'
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'AddOrUpdate',
@@ -319,7 +312,7 @@ export default {
   data() {
     const validateStock = (rule, value, callback) => {
       if (!this.form.id && this.form.cast_goods_id && this.form.stock > this.stock) {
-        callback(new Error('库存不能大于铸造藏品库存'))
+        callback(new Error('库存不能大于铸造纪念品库存'))
       } else {
         callback()
       }
@@ -361,7 +354,6 @@ export default {
         id: 0,
         type: '',
         is_three: 0,
-        integral_price: 0,
         name: '',
         cate_id: '',
         condition_goods_id: '',
@@ -398,22 +390,21 @@ export default {
           three_bin: '',
           three_image: []
         },
-        sort: '',
-        integral_reward: 0
+        sort: ''
       },
       rules: {
-        cast_goods_id: [{ required: true, message: '请选择铸造藏品', trigger: ['blur', 'change'] }],
-        type: [{ required: true, message: '请选择藏品类型', trigger: ['blur', 'change'] }],
-        tags: [{ required: true, message: '请选择藏品标签', trigger: ['blur', 'change'] }],
+        cast_goods_id: [{ required: true, message: '请选择铸造纪念品', trigger: ['blur', 'change'] }],
+        type: [{ required: true, message: '请选择纪念品类型', trigger: ['blur', 'change'] }],
+        tags: [{ required: true, message: '请选择纪念品标签', trigger: ['blur', 'change'] }],
         is_three: [{ required: true, message: '请选择是否展示3D', trigger: ['blur', 'change'] }],
         'three_url.three_mtl': [{ required: true, message: '请上传mtl文件', trigger: ['blur', 'change'] }],
         'three_url.three_obj': [{ required: true, message: '请上传obj文件', trigger: ['blur', 'change'] }],
         'three_url.three_gltf': [{ required: true, message: '请上传gltf文件', trigger: ['blur', 'change'] }],
         'three_url.three_bin': [{ required: true, message: '请上传bin文件', trigger: ['blur', 'change'] }],
         'three_url.three_image': [{ required: true, message: '请上传图片文件', trigger: ['blur', 'change'] }],
-        images: [{ required: true, message: '请选择藏品图片', trigger: ['blur', 'change'] }],
-        name: [{ required: true, message: '请输入藏品名称', trigger: ['blur', 'change'] }],
-        cate_id: [{ required: true, message: '请选择藏品分类', trigger: ['blur', 'change'] }],
+        images: [{ required: true, message: '请选择纪念品图片', trigger: ['blur', 'change'] }],
+        name: [{ required: true, message: '请输入纪念品名称', trigger: ['blur', 'change'] }],
+        cate_id: [{ required: true, message: '请选择纪念品分类', trigger: ['blur', 'change'] }],
         stock: [
           { required: true, message: '请输入库存', trigger: ['blur', 'change'] },
           { validator: validateStock, trigger: ['blur', 'change'] }
@@ -424,7 +415,6 @@ export default {
         issuer_avatar: [{ required: true, message: '请选择发行方头像', trigger: ['blur', 'change'] }],
         issuer: [{ required: true, message: '请输入发行方', trigger: ['blur', 'change'] }],
         limit_num: [{ required: true, message: '请输入限购数量', trigger: ['blur', 'change'] }],
-        integral_price: [{ required: true, message: `价格不能为空`, trigger: ['blur', 'change'] }],
         start_time: [{ required: true, message: '请选择开售时间', trigger: ['blur', 'change'] }],
         is_more: [{ required: true, message: '请选择是否多次销售', trigger: ['blur', 'change'] }],
         total_stock: [{ required: true, message: '请输入本期发售数量', trigger: ['blur', 'change'] }],
@@ -435,13 +425,11 @@ export default {
         sync_gwj_status: [{ required: true, message: '请选择是否同步', trigger: ['blur', 'change'] }],
         reserve_stock: [{ required: true, message: '不能为空', trigger: ['blur', 'change'] }],
         prior_stock: [{ required: true, message: '不能为空', trigger: ['blur', 'change'] }],
-        is_hot: [{ required: true, message: '请选择是否热销', trigger: ['blur', 'change'] }],
-        integral_reward: [{ required: true, message: '不能为空', trigger: ['blur', 'change'] }]
+        is_hot: [{ required: true, message: '请选择是否热销', trigger: ['blur', 'change'] }]
       }
     }
   },
   computed: {
-    ...mapGetters(['integral']),
     dragOptions() {
       return {
         animation: 200,

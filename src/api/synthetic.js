@@ -31,7 +31,7 @@ export function details(id) {
   return request.get(`/synthesis/${id}`)
 }
 
-// 合成藏品列表
+// 合成纪念品列表
 export function synthesisList(params) {
   return request.get('/synthesis/synthesis/list', {
     params

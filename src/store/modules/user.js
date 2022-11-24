@@ -3,7 +3,6 @@ import { getInfo } from '@/api/tenant'
 import { getMessageCount } from '@/api/tenant'
 import { getToken, setToken, removeToken, OssKey, DominKey, AppKey } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
-// import { getIntegralConfig } from '@/api/configs'
 
 const state = {
   token: getToken(),
@@ -52,7 +51,6 @@ const actions = {
     return new Promise((resolve, reject) => {
       login(userInfo).then(response => {
         const { data } = response
-        // dispatch('getIntegral')
         commit('SET_TOKEN', data.admin.admin_token)
         setToken('https://wlnfts.obs.cn-east-3.myhuaweicloud.com/', DominKey)
         setToken(data.admin.admin_token)
@@ -117,19 +115,12 @@ const actions = {
         })
     })
   },
-  // getIntegral({ commit, state }) {
-  //   getIntegralConfig().then(res => {
-  //     res.data.value && commit('SET_INTEGRAL', res.data.value.name)
-  //     res.data.value && setToken(res.data.value.name, 'integral')
-  //   }).catch(() => { })
-  // },
   // user logout
   logout({ commit, state, dispatch }) {
     return new Promise((resolve, reject) => {
       commit('SET_TOKEN', '')
       commit('SET_ROLES', [])
       commit('SET_CONFIGINFO', '')
-      removeToken('integral')
       removeToken('is_first')
       removeToken()
       removeToken(OssKey)
@@ -155,7 +146,6 @@ const actions = {
       removeToken(OssKey)
       removeToken(DominKey)
       removeToken(AppKey)
-      removeToken('integral')
       resolve()
     })
   },

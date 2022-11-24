@@ -57,7 +57,6 @@ export default {
       btnLoading: false,
       fileList: [],
       form: {
-        type: 'integral',
         amount: 0,
         file_path: '',
         is_unique: 0

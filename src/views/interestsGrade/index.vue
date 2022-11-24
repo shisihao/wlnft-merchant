@@ -91,7 +91,7 @@ export default {
           this.$message.success(res.msg)
           this.getList()
         })
-      })
+      }).catch(() => { })
     },
     onUpdateName(row) {
       this.editBtnLoading = true

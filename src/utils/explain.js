@@ -1,5 +1,4 @@
 import store from '@/store'
-const integral = store.getters.integral
 const info = store.getters.info
 
 const init_wallet = (array) => {
@@ -9,7 +8,6 @@ const init_wallet = (array) => {
 export const payOptions = init_wallet(
   [
     { label: '全部', value: '' },
-    { label: integral, value: 'integral' },
     { label: '微信', value: 'wxpay' },
     { label: '支付宝', value: 'alipay' },
     // { label: '农行', value: 'abcpay' },
@@ -26,7 +24,7 @@ export const whetherOptions = [
 
 export const orderTypeOptions = [
   { label: '全部', value: '' },
-  { label: '藏品订单', value: 'goods', type: 'primary' },
+  { label: '纪念品订单', value: 'goods', type: 'primary' },
   { label: '盲盒订单', value: 'box', type: 'warning' }
   /* { label: '铸造券订单', value: 'cast', type: 'success' } */
 ]
@@ -93,19 +91,18 @@ export const examineStatusOptions = [
 ]
 
 export const payTypeOptions = [
-  { label: '全部', value: '' },
-  { label: integral, value: 'integral' }
+  { label: '全部', value: '' }
 ]
 
 export const typeOptions = [
   { label: '全部', value: '' },
-  { label: '常规藏品', value: 0, type: 'primary' },
-  { label: '盲盒藏品', value: 1, type: 'warning' },
-  { label: '合成藏品', value: 3, type: 'success' },
-  // { label: '专属藏品', value: 4, type: 'info' },
+  { label: '常规纪念品', value: 0, type: 'primary' },
+  { label: '盲盒纪念品', value: 1, type: 'warning' },
+  { label: '合成纪念品', value: 3, type: 'success' },
+  // { label: '专属纪念品', value: 4, type: 'info' },
   { label: '资格券', value: 5, type: 'danger' },
-  // { label: '兑换藏品', value: 6, type: 'danger' },
-  { label: '活动藏品', value: 7, type: 'danger' }
+  // { label: '兑换纪念品', value: 6, type: 'danger' },
+  { label: '活动纪念品', value: 7, type: 'danger' }
 ]
 
 export const statusOptions = [
@@ -115,7 +112,7 @@ export const statusOptions = [
 ]
 
 export const activityTypeOptions = [
-  { label: '指定藏品', value: 'goods', type: 'primary' },
+  { label: '指定纪念品', value: 'goods', type: 'primary' },
   { label: '指定专区', value: 'issuer', type: 'warning' }
 ]
 
@@ -127,7 +124,7 @@ export const interestsGiveOptions = [
 export const interestsOptions = [
   { label: '一次性', value: 'once', type: 'warning' },
   { label: '长期', value: 'long', type: 'success' },
-  { label: '指定藏品', value: 'appoint', type: 'primary' }
+  { label: '指定纪念品', value: 'appoint', type: 'primary' }
 ]
 
 export const goodShowTypeOptions = [
@@ -137,11 +134,7 @@ export const goodShowTypeOptions = [
 ]
 
 export const interestOptions = [
-  { label: '优先购', value: 'prior' },
-  { label: '转赠', value: 'give' },
-  { label: `免${integral}`, value: 'free_integral' },
-  { label: '零元购', value: 'free_cny' },
-  { label: '折扣购', value: 'rebate' }
+  { label: '实体商品折扣购', value: 'entity' }
 ]
 
 export const streamTypeOptions = [

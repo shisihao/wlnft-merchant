@@ -88,7 +88,7 @@
       <el-divider />
 
       <div class="logo-box">
-        <el-form-item label="藏品专区banner" prop="goods_banner">
+        <el-form-item label="纪念品专区banner" prop="goods_banner">
           <custom-upload class-name="avatar-uploader avatar4" ref-name="goods_banner" @handleBeforeUpload="beforeAvatarUpload" @handleSuccess="handleAvatarSuccess">
             <img v-if="form.goods_banner" :src="domin + form.goods_banner" class="avatar">
             <img v-else src="@/assets/images/design/step1_add_img.png" class="avatar">
@@ -176,7 +176,7 @@ export default {
         start_logo: [{ required: true, trigger: ['blur', 'change'], message: '请上传启动页logo' }],
         invite_logo: [{ required: true, trigger: ['blur', 'change'], message: '请上传子页面应用logo' }],
         inside_logo: [{ required: true, trigger: ['blur', 'change'], message: '不带产品名图片logo' }],
-        goods_banner: [{ required: true, trigger: ['blur', 'change'], message: '藏品专区banner图片' }],
+        goods_banner: [{ required: true, trigger: ['blur', 'change'], message: '纪念品专区banner图片' }],
         download_image: [{ required: true, trigger: ['blur', 'change'], message: '请上传h5下载页图片' }]
       }
     }

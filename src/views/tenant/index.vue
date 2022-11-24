@@ -8,7 +8,7 @@
       <p class="member-time">
         <el-button type="primary" plain @click="onGoto('/login')">返回登录</el-button>
         <el-divider direction="vertical" />
-        您的服务器到期时间：<span>{{ info.expire_at }}</span>
+        您的套餐到期时间：<span>{{ info.expire_at }}</span>
       </p>
       <div class="mod-secton">
         <div class="content-section">

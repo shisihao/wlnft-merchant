@@ -58,7 +58,7 @@
           {{ $t('table.export') }} Excel
         </el-button>
         <el-button type="success" icon="el-icon-document" @click="onHandleDownloadSerial">
-          指定藏品{{ $t('table.export') }} Excel
+          指定纪念品{{ $t('table.export') }} Excel
         </el-button>
         <el-button type="primary" icon="el-icon-plus" @click="airBalanceBtn">
           用户资产空投
@@ -214,7 +214,7 @@
           </el-button-group>
           <el-button-group style="margin-top: 5px;">
             <!-- <el-button plain type="primary" @click="onUserLikes(row)">他的喜欢</el-button> -->
-            <el-button plain type="primary" @click="onCollection(row)">他的藏品</el-button>
+            <el-button plain type="primary" @click="onCollection(row)">他的纪念品</el-button>
             <el-button plain type="primary" @click="onWallet(row)">钱包流水</el-button>
             <!-- <el-button type="warning" :disabled="!row.forbid_time" style="border-left-color: #a3d3ff;" @click="forbidCancels(row)">解除禁言</el-button> -->
           </el-button-group>
@@ -270,7 +270,7 @@
       ref="wallet"
     />
 
-    <!-- 导出指定藏品用户 -->
+    <!-- 导出指定纪念品用户 -->
     <export-serial
       v-if="exportSerialVisible"
       ref="exportSerial"

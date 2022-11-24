@@ -139,7 +139,7 @@
         </template>
       </el-card>
       <div v-if="!form.id">
-        <el-form-item label="藏品图片" prop="images">
+        <el-form-item label="纪念品图片" prop="images">
           <div class="filter-list-box">
             <draggable v-model="form.images" v-bind="dragOptions" class="wrapper" @start="drag = true" @end="drag = false">
               <transition-group>
@@ -164,10 +164,10 @@
             </custom-upload>
           </div>
           <div class="notice">
-            注意：建议藏品图片尺寸 750*750px
+            注意：建议纪念品图片尺寸 750*750px
           </div>
         </el-form-item>
-        <el-form-item label="藏品展示图" prop="show_image">
+        <el-form-item label="纪念品展示图" prop="show_image">
           <custom-upload
             class-name="avatar-uploader"
             ref-name="show_image"
@@ -178,12 +178,12 @@
             <i v-else class="el-icon-plus avatar-uploader-icon" />
           </custom-upload>
           <div class="notice">
-            注意：建议藏品展示图尺寸 750*750px
+            注意：建议纪念品展示图尺寸 750*750px
           </div>
         </el-form-item>
       </div>
-      <el-form-item v-if="!form.id" label="藏品名称" prop="name">
-        <el-input v-model="form.name" placeholder="请输入藏品名称" />
+      <el-form-item v-if="!form.id" label="纪念品名称" prop="name">
+        <el-input v-model="form.name" placeholder="请输入纪念品名称" />
       </el-form-item>
       <el-form-item v-if="!form.id" label="创作者" prop="author">
         <el-input v-model="form.author" placeholder="请输入创作者" />
@@ -341,13 +341,13 @@ export default {
           { required: true, message: '请上传图片文件', trigger: ['blur', 'change'] }
         ],
         images: [
-          { required: true, message: '请选择藏品图片', trigger: ['blur', 'change'] }
+          { required: true, message: '请选择纪念品图片', trigger: ['blur', 'change'] }
         ],
         show_image: [
-          { required: true, message: '请选择藏品展示图片', trigger: ['blur', 'change'] }
+          { required: true, message: '请选择纪念品展示图片', trigger: ['blur', 'change'] }
         ],
         name: [
-          { required: true, message: '请输入藏品名称', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入纪念品名称', trigger: ['blur', 'change'] }
         ],
         stock: [
           { required: true, message: '请输入库存', trigger: ['blur', 'change'] }

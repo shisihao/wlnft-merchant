@@ -101,7 +101,7 @@ export function onDestroy(data) {
   })
 }
 
-// 指定藏品导出
+// 指定纪念品导出
 export function exportSerialExcel(params) {
   return request.get(`/users/serial/export`, {
     params

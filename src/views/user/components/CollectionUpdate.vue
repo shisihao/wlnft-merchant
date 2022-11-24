@@ -1,8 +1,8 @@
 <template>
   <div>
-    <el-dialog top="30px" :title="`用户${form.name}的藏品`" :visible.sync="visible" @closed="onClose()">
+    <el-dialog top="30px" :title="`用户${form.name}的纪念品`" :visible.sync="visible" @closed="onClose()">
       <el-form :inline="true" :model="search">
-        <el-form-item label="藏品类型">
+        <el-form-item label="纪念品类型">
           <el-select v-model="search.target_type" clearable @change="getList(1)">
             <el-option v-for="item in typeOptions" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
@@ -39,7 +39,7 @@
         />
         <el-table-column
           width="320"
-          label="藏品信息"
+          label="纪念品信息"
           header-align="center"
         >
           <template slot-scope="{ row }">
@@ -60,7 +60,7 @@
                   名称：{{ row.goods && row.goods.name || '-' }}
                 </span>
               </div>
-              <div>藏品编号：{{ row.goods && row.goods.serial || '-' }}</div>
+              <div>纪念品编号：{{ row.goods && row.goods.serial || '-' }}</div>
               <div>编号：{{ row.num }}</div>
             </div>
           </template>
@@ -135,11 +135,11 @@ export default {
     return {
       typeOptions: [
         { label: '全部', value: '' },
-        { label: '常规藏品', value: 'order' },
-        { label: '盲盒藏品', value: 'box' },
-        { label: '空投藏品', value: 'airdrop' },
-        { label: '合成藏品', value: 'synthesis' }
-        /* { label: '铸造藏品', value: 'cast' } */
+        { label: '常规纪念品', value: 'order' },
+        { label: '盲盒纪念品', value: 'box' },
+        { label: '空投纪念品', value: 'airdrop' },
+        { label: '合成纪念品', value: 'synthesis' }
+        /* { label: '铸造纪念品', value: 'cast' } */
       ],
       visible: false,
       GoogleCodeVisible: false,

@@ -21,7 +21,7 @@ export function addOrUpdateZone({ id, ...data }) {
   return request({ url, method, data })
 }
 
-// 铸造藏品筛选列表
+// 铸造纪念品筛选列表
 export function castList(params) {
   return request.get('/activity/filter/cast_goods', {
     params
@@ -35,7 +35,7 @@ export function issuerList(params) {
   })
 }
 
-// 藏品筛选列表
+// 纪念品筛选列表
 export function goodsList(params) {
   return request.get('/activity/filter/goods', {
     params
@@ -205,7 +205,7 @@ export function recordShareStatus({ id, ...data }) {
   })
 }
 
-// 导出藏品排行榜
+// 导出纪念品排行榜
 export function exportRanking(params) {
   return request.get('/activity/goods_ranking/export', {
     params

@@ -3,7 +3,7 @@
     <div class="filter-container">
       <el-form :inline="true" :model="search">
         <el-form-item label="纪念品名称">
-          <el-input v-model="search.name" placeholder="纪念品名称" clearable @clear="getList(1)" @keyup.enter.native="getList(1)" />
+          <el-input v-model="search.keywords" placeholder="纪念品名称" clearable @clear="getList(1)" @keyup.enter.native="getList(1)" />
         </el-form-item>
         <el-button icon="el-icon-search" @click="getList(1)">
           {{ $t('table.search') }}
@@ -25,7 +25,7 @@
         align="center"
       />
       <el-table-column
-        label="藏品信息"
+        label="纪念品信息"
         min-width="300"
         header-align="center"
       >
@@ -45,7 +45,7 @@
               <div v-if="row.goods && row.goods.name">
                 名称：{{ row.goods.name || '' }}
               </div>
-              <div>编号：xxx</div>
+              <div>编号：{{ row.goods.serial }}</div>
             </div>
           </div>
         </template>
@@ -116,7 +116,6 @@ import { getToken, DominKey } from '@/utils/auth'
 import { pickerOptions, interestsOptions } from '@/utils/explain'
 import AddOrUpdate from './components/AddOrUpdate'
 import Pagination from '@/components/Pagination'
-import { mapGetters } from 'vuex'
 import { interestOptions } from '@/utils/explain'
 
 export default {
@@ -131,7 +130,7 @@ export default {
       keyOptions: interestOptions,
       list: [],
       search: {
-        name: ''
+        keywords: ''
       },
       pages: {
         total: 0,
@@ -142,7 +141,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['integral'])
   },
   created() {
     this.init()

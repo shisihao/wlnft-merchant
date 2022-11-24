@@ -60,9 +60,15 @@
         </el-form-item>
         <el-form-item label="3d渲染image文件" prop="three_url.three_image">
           <div class="filter-list-box">
-            <draggable v-model="form.images" v-bind="dragOptions" class="wrapper" @start="drag = true" @end="drag = false">
+            <draggable
+              v-model="form.images"
+              v-bind="dragOptions"
+              class="wrapper"
+              @start="drag = true"
+              @end="drag = false"
+            >
               <transition-group>
-                <div v-for="(item,index) in form.three_url.three_image" :key="item" class="upload-images">
+                <div v-for="(item, index) in form.three_url.three_image" :key="item" class="upload-images">
                   <div class="upload-image">
                     <el-image :src="item && domin + item" />
                   </div>
@@ -133,8 +139,8 @@ export default {
         'three_url.three_bin': { required: true, message: '不能为空', trigger: ['blur', 'change'] },
         'three_url.three_gltf': { required: true, message: '不能为空', trigger: ['blur', 'change'] },
         'three_url.three_image': { required: true, message: '不能为空', trigger: ['blur', 'change'] },
-        'cny_price': { required: true, message: '不能为空', trigger: ['blur', 'change'] },
-        'sort': { required: true, message: '不能为空', trigger: ['blur', 'change'] }
+        cny_price: { required: true, message: '不能为空', trigger: ['blur', 'change'] },
+        sort: { required: true, message: '不能为空', trigger: ['blur', 'change'] }
       }
     }
   },
@@ -152,6 +158,8 @@ export default {
     init(data) {
       this.visible = true
       if (data) {
+        this.binList = [{ name: data.three_url.three_bin }]
+        this.gltfList = [{ name: data.three_url.three_gltf }]
         this.form = { ...data }
       }
     },
@@ -159,6 +167,7 @@ export default {
       this.$refs['form'].validate(valid => {
         if (valid) {
           this.btnLoading = true
+          this.form.images = JSON.parse(JSON.stringify(this.form.three_url.three_image))
           addOrUpdate(this.form)
             .then(({ msg }) => {
               this.$message.success(msg)
@@ -253,6 +262,9 @@ export default {
 		cursor: pointer;
 		position: relative;
 		overflow: hidden;
+		.el-upload-list__item {
+			transition: none;
+		}
 	}
 	.el-upload:hover {
 		border-color: #409eff;

@@ -3,7 +3,7 @@
     <div class="filter-container">
       <el-form :inline="true" :model="search">
         <el-form-item label="关键词">
-          <el-input v-model="search.keywords" style="width: 240px;" placeholder="藏品编号/藏品名称/发行方/创作者" clearable @clear="getList(1)" @keyup.enter.native="getList(1)" />
+          <el-input v-model="search.keywords" style="width: 240px;" placeholder="纪念品编号/纪念品名称/发行方/创作者" clearable @clear="getList(1)" @keyup.enter.native="getList(1)" />
         </el-form-item>
         <el-button icon="el-icon-search" @click="getList(1)">
           {{ $t('table.search') }}
@@ -27,7 +27,7 @@
       />
       <el-table-column
         prop="images"
-        label="藏品图片"
+        label="纪念品图片"
         width="365"
         header-align="center"
       >
@@ -49,7 +49,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="藏品信息"
+        label="纪念品信息"
         min-width="180"
         header-align="center"
       >
@@ -66,7 +66,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="藏品信息"
+        label="纪念品信息"
         min-width="180"
         header-align="center"
       >

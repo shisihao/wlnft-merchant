@@ -76,17 +76,14 @@
           <div v-if="form.goods && form.goods.length > 0" class="box-scroll">
             <div v-for="(item, index) in form.goods" :key="index">
               <span v-show="item.goods_id > 0">
-                <el-tag type="primary">藏品</el-tag> <el-tag v-if="item.goodType" :type="item.goodType | paraphrase(typeOptions, 'value', 'type')">{{ item.goodType | paraphrase(typeOptions) }}</el-tag> <span class="box-name ellipsis">名称：{{ item.name }}</span> <span class="box-stock">库存：{{ item.stock }}</span><span class="box-stock">剩余：{{ item.stock - (item.sales_num || 0) }}</span>
-              </span>
-              <span v-show="item.goods_id === 0">
-                <el-tag type="warning">{{ integral }}</el-tag> <span class="box-name ellipsis">数量：{{ item.integral_num }}</span><span class="box-stock">库存：{{ item.stock }}</span>
+                <el-tag type="primary">纪念品</el-tag> <el-tag v-if="item.goodType" :type="item.goodType | paraphrase(typeOptions, 'value', 'type')">{{ item.goodType | paraphrase(typeOptions) }}</el-tag> <span class="box-name ellipsis">名称：{{ item.name }}</span> <span class="box-stock">库存：{{ item.stock }}</span><span class="box-stock">剩余：{{ item.stock - (item.sales_num || 0) }}</span>
               </span>
               <i v-show="!form.id" class="el-icon-delete del-good" @click="onDelGood(index)" />
             </div>
           </div>
           <div v-if="[0, 1].includes(good.type)">
             <div v-if="good.type === 0" class="add-box">
-              藏品：
+              纪念品：
               <el-select v-model="good.name" clearable @change="onChangeGood">
                 <el-option v-for="v in goodsOptions" :key="v.value" :label="v.label" :value="v.value" :disabled="v.disabled || v.stock === 0">
                   <span style="float: left;max-width: 300px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{ v.label }}</span>
@@ -94,10 +91,6 @@
                   <span style="float: right;margin-left: 10px;color: #8492a6;font-size: 13px">{{ v.stock }}</span>
                 </el-option>
               </el-select>
-            </div>
-            <div v-if="good.type === 1" class="add-box">
-              {{ integral }}：
-              <el-input-number v-model="good.integral_num" :min="0" :precision="2" :placeholder="`${integral}`" />
             </div>
             <div class="add-box">
               库存：
@@ -109,8 +102,7 @@
             </div>
           </div>
           <div v-else>
-            <el-button v-show="!form.id" type="primary" plain @click="onAddBoxType(0)">+ 藏品</el-button>
-            <el-button v-show="!form.id" type="warning" plain @click="onAddBoxType(1)">+{{ integral }}</el-button>
+            <el-button v-show="!form.id" type="primary" plain @click="onAddBoxType(0)">+ 纪念品</el-button>
           </div>
         </el-form-item>
         <el-form-item label="库存" prop="stock">
@@ -171,9 +163,6 @@
         </el-form-item>
         <el-form-item label="人民币价格" prop="cny_price">
           <el-input-number v-model="form.cny_price" :min="0" :precision="2" placeholder="人民币价格" />
-        </el-form-item>
-        <el-form-item :label="`${integral}价格`" prop="integral_price">
-          <el-input-number v-model="form.integral_price" :min="0" :precision="2" :placeholder="`${integral}价格`" />
         </el-form-item>
         <el-form-item label="限购数量" prop="limit_num">
           <el-input-number v-model="form.limit_num" :min="1" :precision="0" placeholder="限购数量" />
@@ -240,7 +229,6 @@ import EditTinymce from './EditTinymce'
 import ElImageViewer from 'element-ui/packages/image/src/image-viewer'
 import { typeOptions, pickerOptions } from '@/utils/explain'
 import { conditionList } from '@/api/collection'
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'AddOrUpdate',
@@ -272,7 +260,6 @@ export default {
         name: '',
         type: '',
         goodType: '',
-        integral_num: 0,
         goods_id: 0,
         stock: 0,
         max_stock: 0
@@ -373,7 +360,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['integral']),
     dragOptions() {
       return {
         animation: 200,
@@ -525,17 +511,7 @@ export default {
     onAddBoxItem() {
       if (this.good.type === 0) {
         if (this.good.stock > this.good.max_stock) {
-          this.$message.warning('库存不能大于藏品库存')
-          return false
-        }
-      }
-      if (this.good.type === 1) {
-        if (this.form.goods.some(v => parseFloat(this.good.integral_num) === parseFloat(v.integral_num))) {
-          this.$message.warning('不能重复添加')
-          return false
-        }
-        if (this.good.integral_num <= 0) {
-          this.$message.warning(`${this.integral}数量必须大于 0`)
+          this.$message.warning('库存不能大于纪念品库存')
           return false
         }
       }
@@ -593,7 +569,6 @@ export default {
       this.form.detail = value
     },
     handleAvatarSuccess(response, file) {
-      console.log(response)
       if (this.currentName === 'images') {
         this.form[this.currentName].push(response)
       } else {

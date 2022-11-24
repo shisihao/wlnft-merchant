@@ -38,7 +38,7 @@ export function setStatus({ id, ...data }) {
   })
 }
 
-//  权益藏品
+//  权益纪念品
 export function conditionGoodsList() {
   return request.get('/entityGoods/conditionGoods/filter')
 }

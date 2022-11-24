@@ -18,7 +18,7 @@
             <img v-if="form.image" :src="domin + form.image" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon" />
           </custom-upload>
-          <div class="notice">注意：建议藏品图片尺寸 750*1000px</div>
+          <div class="notice">注意：建议纪念品图片尺寸 750*1000px</div>
         </el-form-item>
         <el-form-item label="活动标题" prop="title">
           <el-input v-model="form.title" placeholder="请输入活动标题" />
@@ -80,7 +80,7 @@
                 </el-form-item>
                 <el-form-item
                   v-if="item.type === 'goods'"
-                  label="指定藏品"
+                  label="指定纪念品"
                   class="reward-row"
                   :prop="`reward.${index}.target_id`"
                   :rules="{ required: true, message: '不能为空', trigger: ['blur', 'change'] }"
@@ -223,7 +223,7 @@ export default {
       goodsOptions: [],
       boxOptions: [],
       typeOptions: [
-        { value: 'goods', label: '藏品' },
+        { value: 'goods', label: '纪念品' },
         { value: 'box', label: '盲盒' }
       ],
       pickerOptions: {

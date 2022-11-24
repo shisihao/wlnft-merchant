@@ -31,7 +31,7 @@ export function getOrdersIntegral(id) {
   return request.patch(`/order/${id}/integral_transfer`)
 }
 
-// 发起藏品交易
+// 发起纪念品交易
 export function getOrdersSafe(id) {
   return request.patch(`/order/${id}/safe_transfer`)
 }

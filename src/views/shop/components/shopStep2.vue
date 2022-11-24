@@ -126,7 +126,7 @@
             </template>
           </el-table-column>
 
-          <!-- 商品类型为兑换时显示藏品数量，不显示人民币与积分 -->
+          <!-- 商品类型为兑换时显示纪念品数量，不显示人民币 -->
           <template v-if="form.type !=='voucher'">
             <el-table-column
               label="人民币"
@@ -140,7 +140,7 @@
           </template>
           <el-table-column
             v-if="form.type ==='voucher'"
-            label="藏品数量"
+            label="纪念品数量"
             min-width="160"
             align="center"
           >
@@ -188,7 +188,6 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
 import { getToken, DominKey } from '@/utils/auth'
 import CustomUpload from '@/components/Upload/CustomUpload'
 import { validSpace } from '@/utils/validate'
@@ -229,13 +228,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['integral']),
     numOptions() {
       return [
         { label: '剩余库存', value: 0 },
         { label: '人民币价格', value: 1 },
-        { label: `${this.integral}价格`, value: 2 },
-        { label: '藏品数量', value: 4 }
+        { label: '纪念品数量', value: 4 }
       ]
     }
   },
