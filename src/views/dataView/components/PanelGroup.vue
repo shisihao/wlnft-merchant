@@ -5,7 +5,7 @@
         <el-row :gutter="20">
           <el-col :sm="12" :xs="24" :md="6" class="card-panel-col">
             <div class="card-panel">
-              <div class="card-panel-description">
+              <div v-if="common.sale" class="card-panel-description">
                 <div class="card-panel-text">本月纪念品销售额（元）</div>
                 <count-to :start-val="0" :end-val="+common.sale.cny.curr_month" :duration="2000" :class="common.order > 0 ? 'card-panel-warning' : ''" class="card-panel-num" />
                 <div class="card-panel-desc">累计销售额 {{ common.sale.cny.total }}</div>
@@ -22,7 +22,7 @@
           </el-col>
           <el-col :sm="12" :xs="24" :md="6" class="card-panel-col">
             <div class="card-panel">
-              <div class="card-panel-description">
+              <div v-if="common.entity_sale" class="card-panel-description">
                 <div class="card-panel-text">
                   本月商城销售额（元）
                 </div>
@@ -33,7 +33,7 @@
           </el-col>
           <el-col :sm="12" :xs="24" :md="6" class="card-panel-col">
             <div class="card-panel">
-              <div v-if="common.maintenance_fee.curr_month" class="card-panel-description">
+              <div v-if="common.entity_sale" class="card-panel-description">
                 <div class="card-panel-text">
                   上月商城销售额（元）
                 </div>
@@ -44,22 +44,42 @@
         </el-row>
       </el-col>
     </el-row>
-    <PayFee v-if="payVisible" ref="payFee" @refreshList="resetData" />
   </div>
 </template>
 
 <script>
 import CountTo from 'vue-count-to'
-import PayFee from '@/views/tenant/components/PayFee.vue'
 export default {
   components: {
-    CountTo,
-    PayFee
+    CountTo
   },
   props: {
     common: {
       type: Object,
-      default: () => ({})
+      default: () => ({
+        entity_sale: {
+          cny: {
+            curr_month: 0,
+            last_month: 0,
+            total: 0,
+            yesterday: 0
+          }
+        },
+        user: {
+          total: 2,
+          total_buy: 0,
+          yesterday: 0,
+          yesterday_buy: 0
+        },
+        sale: {
+          cny: {
+            curr_month: 0,
+            last_month: 0,
+            total: 0,
+            yesterday: 0
+          }
+        }
+      })
     }
   },
   data() {

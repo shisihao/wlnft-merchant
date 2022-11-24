@@ -1,148 +1,122 @@
 <template>
-  <el-row :gutter="20" class="panel-box">
-    <el-col :xs="24" :span="12" class="card-panel-col">
-      <el-row :gutter="20" class="panel-group">
-        <el-col :xs="24" :span="12">
-          <el-card shadow="never" class="card-boder">
-            <div class="user-title">
-              昨日新增用户（人）
-            </div>
-            <div class="user-num">
-              {{ statistics.user.yesterday }}
-            </div>
-            <div class="user-text">
-              其中消费用户数量 <span>{{ statistics.user.yesterday_buy }}</span>
-            </div>
-            <el-divider />
-            <div class="user-title">
-              累计用户数量（人）
-            </div>
-            <div class="user-num">
-              {{ statistics.user.total }}
-            </div>
-            <div class="user-text">
-              其中消费用户数量 <span>{{ statistics.user.total_buy }}</span>
-            </div>
-          </el-card>
-        </el-col>
-        <el-col :xs="24" :span="12">
-          <el-card shadow="never" class="card-boder">
-            <div class="user-title">
-              昨日纪念品销售额（元）
-            </div>
-            <div class="user-num">
-              <span>{{ statistics.sale.cny.yesterday | moneyToFormat }}</span>
-            </div>
-            <div class="user-text" />
-            <el-divider />
-            <div class="user-title">
-              昨日商城销售额
-            </div>
-            <div class="user-num">
-              <span>{{ statistics.entity_sale.cny.yesterday }}</span>
-            </div>
-            <div class="user-text" />
-          </el-card>
-        </el-col>
-      </el-row>
-    </el-col>
-    <el-col :xs="24" :span="12" class="card-panel-col">
-      <el-row :gutter="20" class="panel-group">
-        <el-col :xs="24" :span="12">
-          <el-card shadow="never" class="card-boder">
-            <div class="user-title">
-              剩余上链次数
-            </div>
-            <div class="user-num">
-              <b>{{ info.chain_num }}</b>
-            </div>
-            <div class="user-text">
-              <span class="usedetails">立即充值</span>
-              <span class="usedetails">使用明细</span>
-            </div>
-            <el-divider />
-            <div class="user-title">
-              纪念品转赠收入
-            </div>
-            <div class="user-num">
-              <b>{{ statistics.give_sale | moneyToFormat }}</b>
-            </div>
-            <div class="user-text" />
-          </el-card>
-        </el-col>
-        <!-- <el-col :xs="24" :span="12">
-          <el-card shadow="never" class="card-boder">
-            <div class="user-title">
-              剩余上链次数
-            </div>
-            <div class="user-num">
-              <b>{{ statistics.integral.balance }}</b>
-            </div>
-            <div class="user-text">
-              <span class="usedetails">立即充值</span>
-              <span class="usedetails">使用明细</span>
-            </div>
-            <el-divider />
-            <div class="user-title">
-              纪念品转赠收入
-            </div>
-            <div class="user-num">
-              <b>{{ statistics.integral.expend | moneyToFormat }}</b>
-            </div>
-            <div class="user-text" />
-          </el-card>
-        </el-col> -->
-      </el-row>
-    </el-col>
-  </el-row>
+  <div>
+    <el-row :gutter="20" class="panel-box">
+      <el-col :xs="24" :span="12" class="card-panel-col">
+        <el-row :gutter="20" class="panel-group">
+          <el-col :xs="24" :span="12">
+            <el-card shadow="never" class="card-boder">
+              <div class="user-title">
+                昨日新增用户（人）
+              </div>
+              <div class="user-num">
+                {{ statistics.user.yesterday }}
+              </div>
+              <div class="user-text">
+                其中消费用户数量 <span>{{ statistics.user.yesterday_buy }}</span>
+              </div>
+              <el-divider />
+              <div class="user-title">
+                累计用户数量（人）
+              </div>
+              <div class="user-num">
+                {{ statistics.user.total }}
+              </div>
+              <div class="user-text">
+                其中消费用户数量 <span>{{ statistics.user.total_buy }}</span>
+              </div>
+            </el-card>
+          </el-col>
+          <el-col :xs="24" :span="12">
+            <el-card v-if="statistics.entity_sale" shadow="never" class="card-boder">
+              <div class="user-title">
+                昨日纪念品销售额（元）
+              </div>
+              <div class="user-num">
+                <span>{{ statistics.sale.cny.yesterday | moneyToFormat }}</span>
+              </div>
+              <div class="user-text" />
+              <el-divider />
+              <div class="user-title">
+                昨日商城销售额
+              </div>
+              <div class="user-num">
+                <span>{{ statistics.entity_sale.cny.yesterday }}</span>
+              </div>
+              <div class="user-text" />
+            </el-card>
+          </el-col>
+        </el-row>
+      </el-col>
+      <el-col :xs="24" :span="12" class="card-panel-col">
+        <el-row :gutter="20" class="panel-group">
+          <el-col :xs="24" :span="12">
+            <el-card shadow="never" class="card-boder">
+              <div class="user-title">
+                剩余上链次数
+              </div>
+              <div class="user-num">
+                <b>{{ info.chain_num }}</b>
+              </div>
+              <div class="user-text">
+                <span class="usedetails" @click="handleOprate">立即充值</span>
+                <span class="usedetails" @click="$router.push('/chainLog')">使用明细</span>
+              </div>
+              <el-divider />
+              <div class="user-title">
+                纪念品转赠收入
+              </div>
+              <div class="user-num">
+                <b>{{ statistics.give_sale | moneyToFormat }}</b>
+              </div>
+              <div class="user-text" />
+            </el-card>
+          </el-col>
+        </el-row>
+      </el-col>
+    </el-row>
+    <under-order v-if="payVisible" ref="payFee" @refreshList="resetData" />
+  </div>
+
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-
+import UnderOrder from '@/views/tenant/components/UnderOrder'
 export default {
+  components: { UnderOrder },
   props: {
     statistics: {
       type: Object,
       default: () => ({
+        entity_sale: {
+          cny: {
+            curr_month: 0,
+            last_month: 0,
+            total: 0,
+            yesterday: 0
+          }
+        },
         user: {
-          total: 0,
+          total: 2,
           total_buy: 0,
           yesterday: 0,
           yesterday_buy: 0
         },
         sale: {
           cny: {
-            yesterday: 0,
-            total: 0
-          },
-          integral: {
-            yesterday: 0,
-            total: 0
+            curr_month: 0,
+            last_month: 0,
+            total: 0,
+            yesterday: 0
           }
         },
-        collect: {
-          on: 0,
-          off: 0,
-          sell_out: 0,
-          total: 0
-        },
-        box: {
-          on: 0,
-          off: 0,
-          sell_out: 0,
-          total: 0
-        },
-        integral: {
-          income: 0.00,
-          balance: 0.00,
-          expend: 0.00
-        }
+        give_sale: 0
       })
     }
   },
   data() {
     return {
+      payVisible: false
     }
   },
   computed: {
@@ -152,6 +126,15 @@ export default {
   },
   methods: {
     init() {
+    },
+    handleOprate() {
+      this.payVisible = true
+      this.$nextTick(() => {
+        this.$refs.payFee && this.$refs.payFee.init()
+      })
+    },
+    resetData() {
+      this.$emit('resetData')
     }
   }
 }

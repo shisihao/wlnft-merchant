@@ -68,7 +68,7 @@ import { mapGetters } from 'vuex'
 import { BigNumber } from 'bignumber.js'
 
 export default {
-  name: 'PayFee',
+  name: 'UnderOrder',
   components: { CustomUpload },
   data() {
     return {

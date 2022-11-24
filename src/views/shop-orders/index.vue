@@ -434,10 +434,10 @@ export default {
         this.$refs.batchDeliver && this.$refs.batchDeliver.init()
       })
     },
-    onEditLogistics() {
+    onEditLogistics(row) {
       this.logisticsVisible = true
       this.$nextTick(() => {
-        this.$refs.logistics && this.$refs.logistics.init()
+        this.$refs.logistics && this.$refs.logistics.init(row)
       })
     },
     // 跳转售后页面

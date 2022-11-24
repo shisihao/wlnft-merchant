@@ -71,15 +71,15 @@ export default {
     return {
       chart: null,
       payTypeOptions: [
-        { label: '纪念品销售额', value: 'cny' },
-        { label: '商城销售额', value: 'integral' }
+        { label: '纪念品销售额', value: 'sale' },
+        { label: '商城销售额', value: 'entity_sale' }
       ],
       datas: {
         info: []
       },
       loading: false,
       search: {
-        type: 'cny',
+        type: 'sale',
         end_time: '',
         start_time: ''
       },
@@ -156,7 +156,7 @@ export default {
             trigger: 'axis'
           },
           legend: {
-            data: [_this.search.type === 'cny' ? '纪念品销售额' : `商城销售额`]
+            data: [_this.search.type === 'sale' ? '纪念品销售额' : `商城销售额`]
           },
           grid: {
             left: '3%',
@@ -174,7 +174,7 @@ export default {
           },
           series: [
             {
-              name: _this.search.type === 'cny' ? '纪念品销售额' : `商城销售额`,
+              name: _this.search.type === 'sale' ? '纪念品销售额' : `商城销售额`,
               type: 'line',
               data: afterRechargeDate,
               smooth: true,

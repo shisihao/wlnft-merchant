@@ -5,7 +5,7 @@
         请上传您的APP基本资料
       </div>
       <div class="app-step-content">
-        <div v-show="step === 0">
+        <div>
           <div class="step-form">
             <div class="step-title">
               <span style="color: #F56C6C;">*</span> 请输入您的APP产品名
@@ -27,36 +27,13 @@
             </el-form>
           </div>
           <div class="app-step-next">
-            <el-button type="primary" size="medium" @click="onStepNext">确定</el-button>
+            <el-button type="primary" size="medium" @click="onStepNext">确认</el-button>
           </div>
         </div>
       </div>
     </div>
 
     <copyright />
-
-    <el-dialog class="template-dailog" top="30px" :show-close="false" :visible.sync="templateVisible">
-      <div slot="title">
-        <div v-for="(item, index) in templateList" v-show="activeName === `tem_${index}`" :key="index" class="swpier-content">
-          <swiper :ref="`previewSwiper${index}`" :options="swiperPreviewOptions">
-            <swiper-slide v-for="(v, i) in item.images" :key="i" class="images-list">
-              <div class="phone-section">
-                <el-image class="phone-box" :src="phoneBox" />
-                <div v-if="v.bottom" class="phone-tabbar">
-                  <img :src="domin + v.bottom" alt="">
-                </div>
-                <div class="phone-content">
-                  <img :src="domin + v.center" alt="">
-                </div>
-              </div>
-            </swiper-slide>
-            <div slot="pagination" class="swiper-pagination" />
-          </swiper>
-          <div slot="button-prev" class="swiper-button-prev swiper-button-prev1" :class="item.btn === 0 ? 'swiper-button-prev-disable' : ''" @click="previewPrev(index)" />
-          <div slot="button-next" class="swiper-button-next swiper-button-next1" :class="item.btn === 1 ? 'swiper-button-next-disable' : ''" @click="previewNext(index)" />
-        </div>
-      </div>
-    </el-dialog>
 
     <el-dialog title="提示" :visible.sync="agreementVisible" @closed="onClosedAgreement">
       <el-dialog
@@ -70,7 +47,7 @@
 
       <div>
         <p>
-          APP产品名：{{ form.app_name }}，模版：{{ templateList[activeIndex] ? templateList[activeIndex].name : '' }}，设计风格选择之后暂不可修改，确认选择？
+          APP产品名：{{ form.app_name }}，设计风格选择之后暂不可修改，确认选择？
         </p>
         <p>
           <el-checkbox v-model="form.agree" label="我已阅读并同意" name="type" />
@@ -80,7 +57,7 @@
 
       <div slot="footer" class="dialog-footer">
         <el-button @click="agreementVisible = false">取 消</el-button>
-        <el-button type="primary" @click="onConfirmAgreement">确认</el-button>
+        <el-button type="primary" :loading="btnLoading" @click="onConfirmAgreement">确认</el-button>
       </div>
     </el-dialog>
   </div>
@@ -88,19 +65,18 @@
 <script>
 import { DominKey, getToken } from '@/utils/auth'
 import { validUsername } from '@/utils/validate'
-import { scrollTo } from '@/utils/scroll-to'
 import Copyright from '@/components/Copyright'
 import AppStep from '@/components/AppStep'
-import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper'
+import { directive } from 'vue-awesome-swiper'
 import 'swiper/swiper-bundle.css'
 import phoneBox from '@/assets/images/step2_phone_bg2.png'
-import { dataList, temList, setTem } from '@/api/design'
+import { dataList, setTem } from '@/api/design'
 import { mapGetters } from 'vuex'
 import { putFirst } from '@/api/common'
 
 export default {
   name: 'Step',
-  components: { AppStep, Copyright, Swiper, SwiperSlide },
+  components: { AppStep, Copyright },
   directives: {
     swiper: directive
   },
@@ -120,44 +96,13 @@ export default {
       agreementVisible: false,
       dialogRenewalVisible: false,
       btnLoading: false,
-      step: 0,
-      activeName: 'tem_0',
-      activeIndex: 0,
-      swiperTo: {
-        current: 0,
-        index: 0
-      },
-      swiperOptions: {
-        slidesPerView: 4,
-        spaceBetween: 10,
-        observer: true, // 修改swiper自己或子元素时，自动初始化swiper
-        observeParents: true, // 修改swiper的父元素时，自动初始化swiper
-        touchRatio: '0',
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev'
-        }
-      },
-      swiperPreviewOptions: {
-        observer: true, // 修改swiper自己或子元素时，自动初始化swiper
-        observeParents: true, // 修改swiper的父元素时，自动初始化swiper
-        navigation: {
-          nextEl: '.swiper-button-next1',
-          prevEl: '.swiper-button-prev1'
-        },
-        on: {
-          slideChange: function(swiper) {
-            console.log(swiper)
-          }
-        }
-      },
-      templateList: [],
       form: {
         app_name: '',
         start_logo: '',
         inside_logo: '',
         invite_logo: '',
-        template_id: 0,
+        goods_banner: '',
+        download_image: '',
         agree: false
       },
       appData: {},
@@ -169,22 +114,9 @@ export default {
     }
   },
   computed: {
-    swiper() {
-      return function(v = 0) {
-        return this.$refs[`mySwiper${v}`][0].$swiper
-      }
-    },
-    previewSwiper() {
-      return function(v = 0) {
-        return this.$refs[`previewSwiper${v}`][0].$swiper
-      }
-    },
     ...mapGetters([
       'configInfo', 'info'
     ])
-  },
-  created() {
-    this.init()
   },
   beforeRouteEnter(to, from, next) {
     if (from.path !== '/login') {
@@ -196,73 +128,21 @@ export default {
     }
   },
   methods: {
-    init() {
-      this.getTemList()
-    },
     getTemData() {
       dataList().then(response => {
         this.appData = response.data
         this.form.app_name = response.data.app_name
       })
     },
-    getTemList() {
-      this.templateLoading = true
-      temList()
-        .then((response) => {
-          if (response.data.length) {
-            this.templateLoading = false
-            this.templateList = response.data.map(v => {
-              return Object.assign(v, { btn: 0 })
-            })
-          }
-        })
-    },
-    prev(index) {
-      this.swiper(index).slidePrev()
-      this.templateList[index].btn = this.swiper(index).progress
-    },
-    next(index) {
-      this.swiper(index).slideNext()
-      this.templateList[index].btn = this.swiper(index).progress
-    },
-    previewPrev(index) {
-      this.previewSwiper(index).slidePrev()
-      this.templateList[index].btn = this.previewSwiper(index).progress
-    },
-    previewNext(index) {
-      this.previewSwiper(index).slideNext()
-      this.templateList[index].btn = this.previewSwiper(index).progress
-    },
-    onPreview(index) {
-      this.templateVisible = true
-      this.previewSwiper(index).slideTo(this.swiper(index).clickedIndex || 0, 0, false)
-    },
-    logout() {
-      this.$store.dispatch('user/logout')
-      this.$router.replace(`/login?redirect=dashboard`)
-    },
-    onStepPrev() {
-      this.step = 0
-      scrollTo(0)
-    },
     onStepNext() {
-    //   this.$refs['form'].validate(valid => {
-    //     if (valid) {
-    //       this.$refs.appStep.onsubmit()
-    //       if (this.form.start_logo && this.form.inside_logo && this.form.invite_logo) {
-    //         this.step = 1
-    //         scrollTo(0)
-    //       }
-    //     } else {
-    //       this.$message.error('请输入APP产品名')
-    //     }
-    //   })
-    },
-    onSubmit() {
-      this.btnLoading = true
-      this.activeIndex = this.activeName.split('_')[1]
-      this.form.template_id = this.templateList[this.activeIndex].id
-      this.agreementVisible = true
+      this.$refs['form'].validate(valid => {
+        if (valid) {
+          this.$refs.appStep.onsubmit()
+          this.agreementVisible = true
+        } else {
+          this.$message.error('请输入APP产品名')
+        }
+      })
     },
     getAppLogoInfo(val) {
       for (const key in val) {
@@ -270,12 +150,13 @@ export default {
       }
     },
     onClosedAgreement() {
-      this.btnLoading = false
+      this.agreementVisible = false
     },
     onConfirmAgreement() {
       if (!this.form.agree) {
         return this.$message.warning('请阅读并同意《使用协议》')
       }
+      this.btnLoading = true
       setTem(this.form)
         .then(({ msg }) => {
           this.$message.success(msg)

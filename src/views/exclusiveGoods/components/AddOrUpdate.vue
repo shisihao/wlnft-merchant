@@ -9,7 +9,7 @@
       :close-on-press-escape="false"
       @closed="onClose()"
     >
-      <el-form ref="form" :model="form" label-width="130px">
+      <el-form ref="form" :model="form" label-width="140px" :rules="rules">
         <el-form-item label="模板名称" prop="name">
           <el-input v-model="form.name" placeholder="请输入模板名称" />
         </el-form-item>
@@ -99,12 +99,16 @@
 <script>
 import { addOrUpdate } from '@/api/exclusiveGoods'
 import CustomUpload from '@/components/Upload/CustomUpload'
+import { getToken, DominKey } from '@/utils/auth'
+import draggable from 'vuedraggable'
 
 export default {
   name: 'AddOrUpdate',
-  components: { CustomUpload },
+  components: { CustomUpload, draggable },
+
   data() {
     return {
+      domin: getToken(DominKey),
       visible: false,
       btnLoading: false,
       binList: [],
@@ -123,6 +127,14 @@ export default {
         cny_price: 0,
         sort: 0,
         name: ''
+      },
+      rules: {
+        name: { required: true, message: '不能为空', trigger: ['blur', 'change'] },
+        'three_url.three_bin': { required: true, message: '不能为空', trigger: ['blur', 'change'] },
+        'three_url.three_gltf': { required: true, message: '不能为空', trigger: ['blur', 'change'] },
+        'three_url.three_image': { required: true, message: '不能为空', trigger: ['blur', 'change'] },
+        'cny_price': { required: true, message: '不能为空', trigger: ['blur', 'change'] },
+        'sort': { required: true, message: '不能为空', trigger: ['blur', 'change'] }
       }
     }
   },
@@ -140,7 +152,6 @@ export default {
     init(data) {
       this.visible = true
       if (data) {
-        console.log(111)
         this.form = { ...data }
       }
     },

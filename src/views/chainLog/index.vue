@@ -42,16 +42,17 @@
       <el-table-column
         prop="id"
         label="ID"
+        width="180"
+        align="center"
+      />
+      <el-table-column
+        prop="created_at"
+        label="时间"
         width="120"
         align="center"
       />
       <el-table-column
-        prop="tenant.name"
-        label="品牌商"
-        align="center"
-      />
-      <el-table-column
-        label="类型"
+        label="业务类型"
         align="center"
       >
         <template slot-scope="{row}">
@@ -59,7 +60,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="tenant.num"
+        prop="num"
         label="消耗次数"
         align="center"
       />

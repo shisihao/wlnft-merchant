@@ -60,6 +60,7 @@ export default {
         sub_id: '',
         market_icon: '',
         market_price: 0,
+        is_hot: 1,
         // is_home: 0,
         cny_price: 0,
         images: [],
@@ -154,6 +155,9 @@ export default {
           { required: true, message: '不能为空', trigger: ['change', 'blur'] }
         ],
         market_price: [
+          { required: true, message: '不能为空', trigger: ['change', 'blur'] }
+        ],
+        is_hot: [
           { required: true, message: '不能为空', trigger: ['change', 'blur'] }
         ]
       }

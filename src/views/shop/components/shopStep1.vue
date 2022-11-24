@@ -124,6 +124,12 @@
     <el-form-item label="单次限购数量" prop="single_limit_num">
       <el-input-number v-model="form.single_limit_num" controls-position="right" :precision="0" :min="1" />
     </el-form-item>
+    <el-form-item label="是否热卖" prop="is_hot">
+      <el-radio-group v-model="form.is_hot">
+        <el-radio :label="1">是</el-radio>
+        <el-radio :label="0">否</el-radio>
+      </el-radio-group>
+    </el-form-item>
     <el-form-item v-if="form.type==='common'" label="默认等级折扣" prop="default_rebate">
       <el-input-number v-model="form.default_rebate" controls-position="right" :precision="0" :min="1" :max="100" />
     </el-form-item>
@@ -224,7 +230,6 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
 import { getToken, DominKey } from '@/utils/auth'
 import draggable from 'vuedraggable'
 import ElImageViewer from 'element-ui/packages/image/src/image-viewer'
@@ -254,6 +259,7 @@ export default {
           start_time: '',
           cny_price: 0,
           limit_num: 0,
+          is_hot: 1,
           images: [],
           sort: 0,
           is_postage: 1,
@@ -297,7 +303,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['integral']),
     dragOptions() {
       return {
         animation: 200,

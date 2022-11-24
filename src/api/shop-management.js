@@ -41,3 +41,9 @@ export function batchDeliver(data) {
   })
 }
 
+// 修改物流信息
+export function editLogistic(data) {
+  return request.post('/entityOrders/edit/logistic', {
+    ...data
+  })
+}

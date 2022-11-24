@@ -102,9 +102,9 @@
         <el-form-item label="中奖人数" prop="num">
           <el-input-number v-model="form.num" :precision="0" :min="0" :disabled="!!form.id" />
         </el-form-item>
-        <el-form-item label="报名价格" prop="integral_price">
+        <!-- <el-form-item label="报名价格" prop="integral_price">
           <el-input-number v-model="form.integral_price" :precision="2" :min="0" :disabled="!!form.id" />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="排序" prop="sort">
           <el-input-number v-model="form.sort" :min="0" :precision="0" />
         </el-form-item>
@@ -194,7 +194,7 @@ export default {
         open_time: '',
         target_type: '',
         num: 0,
-        integral_price: 0,
+        // integral_price: 0,
         desc: '',
         detail: ''
       },

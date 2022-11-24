@@ -51,9 +51,9 @@
         <el-button icon="el-icon-search" @click="getList(1)">
           {{ $t('table.search') }}
         </el-button>
-        <el-button type="primary" icon="el-icon-plus" @click="onAddOrUpdate()">
+        <!-- <el-button type="primary" icon="el-icon-plus" @click="onAddOrUpdate()">
           {{ $t('table.add') }}
-        </el-button>
+        </el-button> -->
         <el-button :loading="downloadLoading" type="success" icon="el-icon-document" @click="onHandleDownload">
           {{ $t('table.export') }} Excel
         </el-button>
@@ -209,7 +209,7 @@
             <el-button plain type="primary" @click="onSubset(row)">团队</el-button>
             <!-- <el-button plain type="primary" @click="onFollow(row)">关注</el-button>
             <el-button plain type="primary" @click="onFans(row)">粉丝</el-button> -->
-            <el-button type="primary" @click="onAddOrUpdate(row)">编辑</el-button>
+            <!-- <el-button type="primary" @click="onAddOrUpdate(row)">编辑</el-button> -->
             <el-button type="danger" @click="onDelete(row)">删除</el-button>
           </el-button-group>
           <el-button-group style="margin-top: 5px;">
