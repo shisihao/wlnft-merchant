@@ -54,6 +54,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 ::v-deep .scrollbar-wrapper {
-	margin-right: -16px !important;
+	margin-right: -17px !important;
 }
 </style>

@@ -324,27 +324,27 @@ export default {
         if (errMsg) {
           // console.log('账号校验未通过')
         } else {
-          const options = {
-            'needFeedBack': false
-          }
-          const appid = '193152420'
-          const captcha = new window.TencentCaptcha(appid, function(res) {
-            if (res.ret === 0) {
-              _this.getSms(res.ticket, res.randstr)
-            } else if (res.errorMessage) {
-              console.log(res.errorMessage)
-            }
-          }, options)
-          captcha.show()
+          _this.getSms()
+          // const options = {
+          //   'needFeedBack': false
+          // }
+          // const appid = '193152420'
+          // const captcha = new window.TencentCaptcha(appid, function(res) {
+          //   if (res.ret === 0) {
+          //     _this.getSms(res.ticket, res.randstr)
+          //   } else if (res.errorMessage) {
+          //     console.log(res.errorMessage)
+          //   }
+          // }, options)
+          // captcha.show()
         }
       })
     },
-    getSms(randstr, ticket) {
-      console.log(1111111)
+    getSms() {
       this.codeStatus = true
       this.codeStatusLoading = true
-      getCode({ randstr, ticket, scene: 'login', account: this.form.account })
-        .then((data) => {
+      getCode({ scene: 'login', account: this.form.account })
+        .then(() => {
           this.curCount = this.count
           this.codeText = `${this.curCount}s 后重发`
           Cookies.set('residueTime', +new Date() + this.count * 1000, { expires: new Date(+new Date() + this.count * 1000) })
