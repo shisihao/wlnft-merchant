@@ -26,10 +26,11 @@ export default {
   name: 'Pay',
   data() {
     return {
-      payOptions: payOptions.slice(3),
+      payOptions: payOptions.slice(1),
       btnLoading: false,
       form: {
         // on-开启 off-关闭
+        wxpay: 'off',
         alipay: 'off',
         bank: 'off'
       },

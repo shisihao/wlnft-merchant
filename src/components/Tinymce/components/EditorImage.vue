@@ -54,7 +54,7 @@
 </template>
 
 <script>
-// import { getToken, OssKey, setToken } from '@/utils/auth'
+import { getToken, OssKey } from '@/utils/auth'
 // import { getQiniuToken } from '@/api/qiniu'
 import ObsClient from 'esdk-obs-browserjs/src/obs'
 import CalcVideo from '@/utils/calcVideo'
@@ -72,12 +72,14 @@ export default {
       dialogVisible: false,
       listObj: {},
       fileList: [],
-      oss: {
-        SecretId: '',
-        SecretKey: '',
-        Bucket: '',
-        Region: ''
+      obs: {
+
       }
+    }
+  },
+  created() {
+    if (getToken(OssKey)) {
+      this.obs = JSON.parse(getToken(OssKey))
     }
   },
   methods: {
@@ -186,7 +188,8 @@ export default {
           secret_access_key: 'U869tYGNQp1KnfUqGqeX61gP2Mm548DAk256YzH4',
           server: 'https://obs.cn-east-3.myhuaweicloud.com',
           timeout: 3000, // 设置超时时间
-          Bucket: 'wlnfts'
+          folder: this.obs.folder,
+          Bucket: this.obs.bucket
         }
 
         const obsClient = new ObsClient({
@@ -196,7 +199,7 @@ export default {
           timeout: obs.timeout
         })
 
-        const filename = `${String(+new Date()) + Math.random().toString(36).substring(2)}.${options.file.name.split('.').pop()}`
+        const filename = obs.folder + '/' + `${String(+new Date()) + Math.random().toString(36).substring(2)}.${options.file.name.split('.').pop()}`
 
         obsClient.putObject(
           {

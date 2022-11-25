@@ -177,9 +177,8 @@
         width="60"
         align="center"
       >
-        <template slot-scope="{ row: { state } }">
-          <el-tag v-if="state === 0" type="success">正常</el-tag>
-          <el-tag v-else type="danger">禁用</el-tag>
+        <template slot-scope="{ row }">
+          <el-switch v-model="row.state" :active-value="0" :inactive-value="1" @change="onUpdateState(row)" />
         </template>
       </el-table-column>
       <el-table-column
@@ -290,7 +289,7 @@
 
 <script>
 import Pagination from '@/components/Pagination'
-import { dataList, deleteData, exportOrder } from '@/api/user'
+import { dataList, deleteData, exportOrder, addOrUpdate } from '@/api/user'
 import { forbidCancel } from '@/api/topic'
 import { identityList } from '@/api/common'
 import AddOrUpdate from './components/AddOrUpdate'
@@ -385,16 +384,13 @@ export default {
           this.loading = false
         })
     },
-    // getPartnerOptions() {
-    //   filterPartner({ type: 'all' }).then((response) => {
-    //     response.data.map((v) => {
-    //       this.partnerOptions.push({
-    //         label: v.name,
-    //         value: v.id
-    //       })
-    //     })
-    //   })
-    // },
+    onUpdateState(row) {
+      addOrUpdate(row).then(({ msg }) => {
+        this.$message.success(msg)
+      }).catch(() => {
+        row.state = !row.state
+      })
+    },
     onChangeDateRange(value) {
       if (Array.isArray(value)) {
         this.search.start_time = value[0]

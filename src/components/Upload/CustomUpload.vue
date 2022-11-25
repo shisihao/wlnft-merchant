@@ -80,11 +80,7 @@ export default {
   },
   data() {
     return {
-      oss: {
-        SecretId: '',
-        SecretKey: '',
-        Bucket: '',
-        Region: ''
+      obs: {
       },
       loading: false
     }
@@ -94,7 +90,7 @@ export default {
   },
   created() {
     if (getToken(OssKey)) {
-      this.oss = JSON.parse(getToken(OssKey))
+      this.obs = JSON.parse(getToken(OssKey))
     }
   },
   methods: {
@@ -191,8 +187,8 @@ export default {
           secret_access_key: 'U869tYGNQp1KnfUqGqeX61gP2Mm548DAk256YzH4',
           server: 'https://obs.cn-east-3.myhuaweicloud.com',
           timeout: 3000, // 设置超时时间
-
-          Bucket: 'wlnfts'
+          folder: this.obs.folder,
+          Bucket: this.obs.bucket
         }
 
         var obsClient = new ObsClient({
@@ -204,11 +200,10 @@ export default {
 
         let filename = ''
         if (['three_url.three_image', 'three_url.three_bin'].includes(this.refName)) {
-          filename = options.file.name
+          filename = obs.folder + '/' + options.file.name
         } else {
-          filename = `${String(+new Date()) + Math.random().toString(36).substring(2)}.${options.file.name.split('.').pop()}`
+          filename = obs.folder + '/' + `${String(+new Date()) + Math.random().toString(36).substring(2)}.${options.file.name.split('.').pop()}`
         }
-
         obsClient.putObject(
           {
             Bucket: obs.Bucket,
