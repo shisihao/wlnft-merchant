@@ -168,9 +168,9 @@
         align="center"
       >
         <template slot-scope="{ row }">
-          <div v-if="[0].includes(row.status)">
-            <el-button type="success" @click="onPassOrReject(row,1)">通过</el-button>
-            <el-button type="danger" @click="onPassOrReject(row,2)">驳回</el-button>
+          <div v-if="[1].includes(row.status)">
+            <el-button type="success" @click="onPassOrReject(row,2)">通过</el-button>
+            <el-button type="danger" @click="onPassOrReject(row,3)">驳回</el-button>
           </div>
         </template>
       </el-table-column>
@@ -205,9 +205,9 @@ export default {
       },
       statusOptions: [
         { label: '全部', value: '' },
-        { label: '待审核', value: 0 },
-        { label: '通过', value: 1, type: 'success' },
-        { label: '驳回', value: 2, type: 'danger' }
+        { label: '待审核', value: 1 },
+        { label: '通过', value: 2, type: 'success' },
+        { label: '驳回', value: 3, type: 'danger' }
       ],
       loading: false
     }
@@ -236,26 +236,26 @@ export default {
         })
     },
     onPassOrReject({ id, name, user }, type) {
-      const title = type === 1 ? '通过' : '驳回'
-      const confirmType = type === 1 ? this.$confirm : this.$prompt
+      const title = type === 2 ? '通过' : '驳回'
+      const confirmType = type === 2 ? this.$confirm : this.$prompt
 
       confirmType(`用户昵称「${user?.name}」，专属藏品「${name}」`, `确认${title}`, {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         inputPattern: /\S/,
         inputErrorMessage: '理由不能为空！',
-        type: `${type === 1 ? 'success' : 'error'}`,
+        type: `${type === 2 ? 'success' : 'error'}`,
         inputPlaceholder: '请输入驳回理由',
         cancelButtonClass: 'btn-custom-cancel'
       })
         .then(({ value }) => {
           const api =
-            type === 1
+            type === 2
               ? statusPass({ cast_log_id: id })
               : statusReject({ cast_log_id: id, reason: value })
           api
             .then(() => {
-              this.$message.success(`${type === 1 ? '已通过' : '已驳回'}`)
+              this.$message.success(`${type === 2 ? '已通过' : '已驳回'}`)
               this.getList()
             })
             .catch(() => {
