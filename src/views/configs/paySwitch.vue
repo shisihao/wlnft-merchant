@@ -26,13 +26,13 @@ export default {
   name: 'Pay',
   data() {
     return {
-      payOptions: payOptions.slice(1),
+      payOptions: payOptions.slice(1, 3),
       btnLoading: false,
       form: {
         // on-开启 off-关闭
         wxpay: 'off',
-        alipay: 'off',
-        bank: 'off'
+        alipay: 'off'
+        // bank: 'off'
       },
       rules: {}
     }
