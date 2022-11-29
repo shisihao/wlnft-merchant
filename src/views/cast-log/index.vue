@@ -56,7 +56,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="藏品信息"
+        label="纪念品信息"
         min-width="240"
         header-align="center"
       >
@@ -239,7 +239,7 @@ export default {
       const title = type === 2 ? '通过' : '驳回'
       const confirmType = type === 2 ? this.$confirm : this.$prompt
 
-      confirmType(`用户昵称「${user?.name}」，专属藏品「${name}」`, `确认${title}`, {
+      confirmType(`用户昵称「${user?.name}」，专属纪念品「${name}」`, `确认${title}`, {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         inputPattern: /\S/,

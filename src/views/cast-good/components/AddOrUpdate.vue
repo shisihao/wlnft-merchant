@@ -11,12 +11,12 @@
       </el-form-item>
       <el-card v-if="typeValue!==0" class="box-card">
         <template v-if="form.is_three">
-          <el-form-item label="请选择3D模型类型" prop="three_url.three_type">
+          <!-- <el-form-item label="请选择3D模型类型" prop="three_url.three_type">
             <el-radio-group v-model="form.three_url.three_type" @change="onChangeThreeType">
               <el-radio v-for="(item, index) in threeTypeOptions" :key="index" :label="item.value">{{ item.label }}</el-radio>
             </el-radio-group>
-          </el-form-item>
-          <div v-if="form.three_url.three_type === 'obj'">
+          </el-form-item> -->
+          <!-- <div v-if="form.three_url.three_type === 'obj'">
             <el-form-item label="上传mtl文件" prop="three_url.three_mtl">
               <custom-upload
                 class-name=""
@@ -53,7 +53,7 @@
               </custom-upload>
               <el-progress v-if="![0, 1].includes(objPercentage)" :percentage="objPercentage * 100" />
             </el-form-item>
-          </div>
+          </div> -->
           <div v-if="form.three_url.three_type === 'gltf'">
             <el-form-item label="上传gltf文件" prop="three_url.three_gltf">
               <custom-upload
@@ -305,7 +305,7 @@ export default {
         show_image: '',
         stock: '',
         three_url: {
-          three_type: '',
+          three_type: 'gltf',
           three_mtl: '',
           three_gltf: '',
           three_bin: '',
@@ -397,7 +397,7 @@ export default {
           if ([1].includes(response.data.is_three)) {
             this.typeValue = 1
             this.form = response.data
-            this.form.three_url.three_type = response.data.three_url.three_type || ''
+            this.form.three_url.three_type = response.data.three_url.three_type || 'gltf'
             const three_mtl = this.form.three_url.three_mtl
             const three_obj = this.form.three_url.three_obj
             const three_gltf = this.form.three_url.three_gltf
@@ -408,11 +408,11 @@ export default {
             this.binList = three_bin ? [{ name: three_bin, url: three_bin }] : []
           } else if ([1].includes(response.data.is_video)) {
             this.typeValue = 2
-            this.form = Object.assign(response.data, { three_url: { three_type: '', three_mtl: '', three_obj: '', three_gltf: '', three_bin: '', three_image: [] }})
+            this.form = Object.assign(response.data, { three_url: { three_type: 'gltf', three_mtl: '', three_obj: '', three_gltf: '', three_bin: '', three_image: [] }})
             this.videoList = response.data.is_video ? [{ name: response.data.video_url.filename, url: response.data.video_url.filename }] : []
           } else {
             this.typeValue = 0
-            this.form = Object.assign(response.data, { three_url: { three_type: '', three_mtl: '', three_obj: '', three_gltf: '', three_bin: '', three_image: [] }})
+            this.form = Object.assign(response.data, { three_url: { three_type: 'gltf', three_mtl: '', three_obj: '', three_gltf: '', three_bin: '', three_image: [] }})
           }
         })
         .catch(() => {})

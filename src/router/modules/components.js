@@ -98,6 +98,6 @@ export const localMap = {
   chainOrders: () => import('@/views/tenant/chainOrders'), // 链费用管理
   chainLog: () => import('@/views/chainLog/index'), // 链使用明细
   exclusiveGoods: () => import('@/views/exclusiveGoods/index'), // 专属纪念品配置
-  castlog: () => import('@/views/cast-log/index'), // 用户铸造藏品记录
+  castlog: () => import('@/views/cast-log/index'), // 用户铸造纪念品记录
   wxConfig: () => import('@/views/configs/wxConfig')// 微信开发者配置
 }
