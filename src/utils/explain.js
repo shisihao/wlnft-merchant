@@ -99,7 +99,7 @@ export const typeOptions = [
   { label: '常规纪念品', value: 0, type: 'primary' },
   { label: '盲盒纪念品', value: 1, type: 'warning' },
   { label: '合成纪念品', value: 3, type: 'success' },
-  // { label: '专属纪念品', value: 4, type: 'info' },
+  { label: '专属纪念品', value: 4, type: 'info' },
   { label: '资格券', value: 5, type: 'danger' },
   // { label: '兑换纪念品', value: 6, type: 'danger' },
   { label: '活动纪念品', value: 7, type: 'danger' }

@@ -60,7 +60,10 @@
             <div v-for="(item,key,index) in row.interests" :key="index" style="margin-right: 10px;min-width: 200px;margin-bottom: 10px">
               <div>权益名称： <el-tag type="info" effect="plain">{{ key | paraphrase(keyOptions) }}</el-tag> </div>
               <div>权益类型： <el-tag :type="item.type | paraphrase(interestsOptions, 'value', 'type') ">{{ item.type | paraphrase(interestsOptions) }}</el-tag> </div>
-              <div>权益次数： {{ item.num }}</div>
+              <div v-if="key==='entity'">
+                是否开启：{{ item.num===0?'否':'是' }}
+              </div>
+              <div v-else>权益次数： {{ item.num }}</div>
               <div>是否销毁： {{ item.is_destroy === 1 ? '是' : '否' }}</div>
               <div>权益时间： {{ item.expire_time||"---" }}</div>
             </div>
