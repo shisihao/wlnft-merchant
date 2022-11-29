@@ -1,51 +1,27 @@
 <template>
   <div class="app-container">
-    <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+    <el-form ref="form" :model="form" :rules="rules" label-width="140px">
       <el-form-item label="APPID" prop="appid">
         <el-input v-model="form.appid" placeholder="请输入" />
       </el-form-item>
       <el-form-item label="秘钥" prop="secret">
         <el-input v-model="form.secret" placeholder="请输入" type="textarea" :rows="10" />
       </el-form-item>
-      <el-form-item label="证书" prop="cert_path">
-        <custom-upload
-          class-name=""
-          ref-name="certList"
-          :limit="1"
-          :show-file-list="true"
-          :file-list="certList"
-          @handleBeforeUpload="beforeAvatarUpload"
-          @handleSuccess="handleAvatarSuccess"
-          @handleError="handleError"
-          @handleExceed="handleExceed"
-          @handleRemove="handleRemove('cert_path')"
-        >
-          <el-button type="primary" plain>点击上传</el-button>
-        </custom-upload>
-      </el-form-item>
-      <el-form-item label="证书秘钥" prop="key_path">
-        <custom-upload
-          class-name=""
-          ref-name="keyList"
-          :limit="1"
-          :show-file-list="true"
-          :file-list="keyList"
-          @handleBeforeUpload="beforeAvatarUpload"
-          @handleSuccess="handleAvatarSuccess"
-          @handleError="handleError"
-          @handleExceed="handleExceed"
-          @handleRemove="handleRemove('key_path')"
-        >
-          <el-button type="primary" plain>点击上传</el-button>
-        </custom-upload>
-      </el-form-item>
       <el-form-item label="商户号" prop="mer_num">
         <el-input v-model="form.mer_num" placeholder="请输入" />
       </el-form-item>
-      <el-form-item label="商户秘钥" prop="mer_key">
+      <el-form-item label="商户v3秘钥" prop="mer_key">
         <el-input v-model="form.mer_key" placeholder="请输入" type="textarea" :rows="10" />
       </el-form-item>
-
+      <el-form-item label="商户api秘钥" prop="ssl_key">
+        <el-input v-model="form.ssl_key" placeholder="请输入" type="textarea" :rows="10" />
+      </el-form-item>
+      <el-form-item label="商户证书序列号" prop="cert_serial">
+        <el-input v-model="form.cert_serial" placeholder="请输入" type="textarea" :rows="10" />
+      </el-form-item>
+      <el-form-item label="微信支付平台证书" prop="ssl_cert">
+        <el-input v-model="form.ssl_cert" placeholder="请输入" type="textarea" :rows="10" />
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" :loading="btnLoading" @click="onFormSubmit">
           {{ $t('table.confirm') }}
@@ -57,11 +33,9 @@
 
 <script>
 import { wxConfig, putWxConfig } from '@/api/configs'
-import CustomUpload from '@/components/Upload/CustomUpload'
 
 export default {
   name: 'WxConfig',
-  components: { CustomUpload },
   data() {
     return {
       btnLoading: false,
@@ -70,19 +44,18 @@ export default {
         secret: '',
         mer_num: '',
         mer_key: '',
-        cert_path: '',
-        key_path: ''
+        cert_serial: '',
+        ssl_key: '',
+        ssl_cert: ''
       },
-      certList: [],
-      keyList: [],
-      currentName: '',
       rules: {
         appid: [{ required: true, message: '请输入', trigger: 'blur' }],
         secret: [{ required: true, message: '请输入', trigger: 'blur' }],
         mer_num: [{ required: true, message: '请输入', trigger: 'blur' }],
         mer_key: [{ required: true, message: '请输入', trigger: 'blur' }],
-        cert_path: [{ required: true, message: '请输入', trigger: 'blur' }],
-        key_path: [{ required: true, message: '请输入', trigger: 'blur' }]
+        ssl_cert: [{ required: true, message: '请输入', trigger: 'blur' }],
+        ssl_key: [{ required: true, message: '请输入', trigger: 'blur' }],
+        cert_serial: [{ required: true, message: '请输入', trigger: 'blur' }]
       }
     }
   },

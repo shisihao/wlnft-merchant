@@ -159,7 +159,7 @@
               <el-avatar
                 :key="row.user.id"
                 icon="el-icon-user-solid"
-                :src="row.user.avatar ? domin + row.user.avatar : ''"
+                :src="row.user.avatar ? row.user.avatar : ''"
               />
               <div style="display: inline-block; margin-left: 2px">
                 <div>
@@ -234,8 +234,10 @@
           <el-button v-show="row.status === 0" type="warning" @click="handleColseOrder(row.id)">关闭订单</el-button>
           <el-button v-show="row.refund_status===1" type="warning" @click="handleGoRefund(row.order_no)">去售后</el-button>
           <el-button v-show="row.refund_status===0&&row.status === 1" type="primary" @click="handleDelivery(row)">去发货</el-button>
-          <el-button v-show="row.refund_status===0&&[2, 3, 4].includes(row.status)" type="primary" plain @click="onLogistics(row)">查看物流</el-button>
-          <el-button v-show="row.refund_status===0&&[2].includes(row.status)" type="primary" plain @click="onEditLogistics(row)">修改物流信息</el-button>
+          <el-button-group>
+            <el-button v-show="row.refund_status===0&&[2, 3, 4].includes(row.status)" type="primary" plain @click="onLogistics(row)">查看物流</el-button>
+            <el-button v-show="row.refund_status===0&&[2].includes(row.status)" type="primary" plain @click="onEditLogistics(row)">修改物流信息</el-button>
+          </el-button-group>
           <el-popover
             placement="bottom-start"
             max-width="300"

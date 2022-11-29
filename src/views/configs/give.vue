@@ -20,6 +20,9 @@
       <el-form-item label="铸造纪念品再次赠送限制天数" prop="cast_again">
         <el-input-number v-model="form.cast_again" :min="0" />
       </el-form-item> -->
+      <el-form-item label="转赠费用" prop="fee">
+        <el-input-number v-model="form.fee" :min="0" />
+      </el-form-item>
       <el-form-item label="温馨提示">
         <el-input v-model="form.reminder" type="textarea" :rows="10" />
       </el-form-item>
@@ -44,8 +47,9 @@ export default {
       form: {
         buy: 0,
         again: 0,
-        airdrop_buy: 0,
-        airdrop_again: 0,
+        fee: 0,
+        // airdrop_buy: 0,
+        // airdrop_again: 0,
         reminder: '',
         switch: ''
         // on-开启 off-关闭
@@ -54,9 +58,10 @@ export default {
         buy: [{ required: true, message: '请输入购买后赠送限制天数', trigger: 'blur' }],
         again: [{ required: true, message: '请输入再次赠送限制天数', trigger: 'blur' }],
         airdrop_buy: [{ required: true, message: '请输入空投后赠送限制天数', trigger: 'blur' }],
-        airdrop_again: [{ required: true, message: '请输入空投后再次赠送限制天数', trigger: 'blur' }]
-        // cast_buy: [{ required: true, message: '请输入铸造纪念品购买后赠送限制天数', trigger: 'blur' }],
-        // cast_again: [{ required: true, message: '请输入铸造纪念品再次赠送限制天数', trigger: 'blur' }]
+        airdrop_again: [{ required: true, message: '请输入空投后再次赠送限制天数', trigger: 'blur' }],
+        cast_buy: [{ required: true, message: '请输入铸造纪念品购买后赠送限制天数', trigger: 'blur' }],
+        fee: [{ required: true, message: '请输入转赠费用', trigger: 'blur' }],
+        cast_again: [{ required: true, message: '请输入铸造纪念品再次赠送限制天数', trigger: 'blur' }]
       }
     }
   },

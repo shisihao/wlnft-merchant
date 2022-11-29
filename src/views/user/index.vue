@@ -60,9 +60,9 @@
         <el-button type="success" icon="el-icon-document" @click="onHandleDownloadSerial">
           指定纪念品{{ $t('table.export') }} Excel
         </el-button>
-        <el-button type="primary" icon="el-icon-plus" @click="airBalanceBtn">
+        <!-- <el-button type="primary" icon="el-icon-plus" @click="airBalanceBtn">
           用户资产空投
-        </el-button>
+        </el-button> -->
         <el-button type="primary" icon="el-icon-document" @click="onHandleDownloadFeeRank">
           导出用户消费金额排名
         </el-button>

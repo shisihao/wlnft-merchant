@@ -11,9 +11,9 @@
       <div class="info">
         <div class="info-item">
           应收金额：
-          <span class="price">{{ multiplyNum(allPrice,form.num,info.maintain_rate) }} 元</span>
+          <span class="price">{{ multiplyNum(allPrice,form.num,info.rebate) }} 元</span>
         </div>
-        <div class="info-item">当前优惠：<b style="color: #b8741a;">{{ info.maintain_rate }} 折</b></div>
+        <div class="info-item">当前优惠：<b style="color: #b8741a;">{{ info.rebate/10 }} 折</b></div>
         <template v-if="configInfo">
           <div class="info-item">开户行：{{ configInfo.account_receivable ? configInfo.account_receivable.bank.bank : '' }}</div>
           <div class="info-item">开户号：{{ configInfo.account_receivable ? configInfo.account_receivable.bank.account_number : '' }}</div>
@@ -138,7 +138,7 @@ export default {
     },
     multiplyNum(num, fee, fee2) {
       const price = new BigNumber(num).times(fee || 0)
-      const discount = new BigNumber(fee2).div(10)
+      const discount = new BigNumber(fee2).div(100)
       const all = price.times(discount)
       return all
     },

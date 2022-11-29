@@ -125,6 +125,7 @@ export default {
       form: {
         id: 0,
         three_url: {
+          three_type: 'gltf',
           three_bin: '',
           three_gltf: '',
           three_image: []

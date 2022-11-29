@@ -38,7 +38,7 @@
       <el-form-item label="预留库存" prop="reserve_stock">
         <el-input-number v-model="form.reserve_stock" :disabled="!!form.id" :max="form.id?form.reserve_stock:form.stock*0.8" :precision="0" :min="0" :step="1" placeholder="请输入预留库存" />
       </el-form-item>
-      <div v-if="[0].includes(form.type)">
+      <!-- <div v-if="[0].includes(form.type)">
         <div v-if="!form.id">
           <el-form-item label="是否多次发售" prop="is_more">
             <el-radio-group v-model="form.is_more">
@@ -52,7 +52,7 @@
             <el-input-number v-model="form.total_stock" :precision="0" :min="1" placeholder="请输入本期发售数量" />
           </el-form-item>
         </div>
-      </div>
+      </div> -->
       <el-form-item label="纪念品标签" prop="tags">
         <el-select v-model="form.tags" style="width: 100%" multiple clearable placeholder="请选择">
           <el-option v-for="(item, index) in tagsOptions" :key="index" :disabled="form.tags.length >= 3" :label="item.label" :value="item.value" />

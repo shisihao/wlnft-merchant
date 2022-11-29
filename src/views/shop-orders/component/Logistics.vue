@@ -48,6 +48,7 @@ export default {
       visible: false,
       btnLoading: false,
       logisticsLoading: false,
+      logisticsOptions: [],
       search: {
         keywords: ''
       },
@@ -108,6 +109,9 @@ export default {
             })
         }
       })
+    },
+    onClose() {
+      this.$reset()
     }
   }
 }

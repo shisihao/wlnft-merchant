@@ -231,7 +231,7 @@
       >
         <template slot-scope="{ row, $index }">
           <el-button-group>
-            <el-button v-if="[1].includes(row.is_more)" type="primary" plain @click="onMoreOrUpdate(row)">多次销售</el-button>
+            <!-- <el-button v-if="[1].includes(row.is_more)" type="primary" plain @click="onMoreOrUpdate(row)">多次销售</el-button> -->
             <el-button v-if="row.sell_out === 1 && row.stock > 0" type="warning" @click="onRecycle(row)">库存回收</el-button>
             <el-button v-if="![4].includes(row.type)" type="primary" @click="onAddOrUpdate(row)">编辑</el-button>
             <el-button type="danger" @click="onDelete(row, $index)">删除</el-button>
@@ -406,12 +406,12 @@ export default {
         this.$refs.addOrUpdate && this.$refs.addOrUpdate.init(data)
       })
     },
-    onMoreOrUpdate(data) {
-      this.addMoreVisible = true
-      this.$nextTick(() => {
-        this.$refs.AddMoreList && this.$refs.AddMoreList.init(data)
-      })
-    },
+    // onMoreOrUpdate(data) {
+    //   this.addMoreVisible = true
+    //   this.$nextTick(() => {
+    //     this.$refs.AddMoreList && this.$refs.AddMoreList.init(data)
+    //   })
+    // },
     lookAll(data) {
       this.lookAllTagVisible = true
       this.$nextTick(() => {

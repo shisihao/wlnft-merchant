@@ -18,7 +18,7 @@
         <el-form-item label="类型">
           <el-select v-model="search.type" placeholder="请选择" clearable @change="getList(1)">
             <el-option
-              v-for="item in typeOptions"
+              v-for="item in typeOptions.slice(0,3)"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -73,12 +73,13 @@
 import { pickerOptions } from '@/utils/explain'
 import { dataList, exportOrder } from '@/api/chainLog'
 import Pagination from '@/components/Pagination'
-
+import { getToken, DominKey } from '@/utils/auth'
 export default {
   name: 'ChainLog',
   components: { Pagination },
   data() {
     return {
+      domin: getToken(DominKey),
       downloadLoading: false,
       pickerOptions,
       search: {
@@ -98,7 +99,8 @@ export default {
       typeOptions: [
         { label: '全部', value: '' },
         { label: '纪念品铸造', value: 'cast' },
-        { label: '纪念品转赠', value: 'give' }
+        { label: '纪念品转赠', value: 'give' },
+        { label: '专属铸造', value: 'user_cast' }
       ]
     }
   },

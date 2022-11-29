@@ -81,7 +81,7 @@
         header-align="center"
       >
         <template slot-scope="{ row }">
-          <el-avatar icon="el-icon-user-solid" :src="row.user ? (row.user.avatar ? domin + row.user.avatar : '') : ''" />
+          <el-avatar icon="el-icon-user-solid" :src="row.user ? (row.user.avatar ? row.user.avatar : '') : ''" />
           <div v-if="row.user" style="display: inline-block;margin-left: 10px;vertical-align: top;">
             <div>#{{ row.user.id || '-' }}</div>
             <div>{{ row.user.name || '-' }}</div>
@@ -125,7 +125,7 @@
                   <el-image
                     class="image-item"
                     fit="contain"
-                    :src="item.filename && domin + item.filename"
+                    :src="domin + item"
                     @click="onPicturePreview(row.images, index)"
                   />
                 </template>
@@ -387,7 +387,7 @@ export default {
       const currentItemArr = newImgArr.slice(index, index + 1)
       newImgArr.splice(index, 1)
       const currentArr = currentItemArr.concat(newImgArr).map(v => {
-        return this.domin + v.filename
+        return this.domin + v
       })
       this.imageViewerList = currentArr
       this.imageViewer = true
