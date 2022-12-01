@@ -254,7 +254,7 @@
           <el-radio :label="0">是</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="是否同步奇藏果" prop="sync_status">
+      <!-- <el-form-item label="是否同步奇藏果" prop="sync_status">
         <el-radio-group v-model="form.sync_status">
           <el-radio :label="1">否</el-radio>
           <el-radio :label="0" :disabled="form.sync_gwj_status===0">是</el-radio>
@@ -265,7 +265,7 @@
           <el-radio :label="1">否</el-radio>
           <el-radio :label="0" :disabled="form.sync_status===0">是</el-radio>
         </el-radio-group>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="开售时间" prop="start_time">
         <el-date-picker v-model="form.start_time" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="开售时间" :picker-options="pickerOptions0" clearable />
       </el-form-item>
@@ -376,8 +376,8 @@ export default {
         is_more: 0,
         status: 0,
         give_status: 0,
-        sync_status: 1,
-        sync_gwj_status: 1,
+        // sync_status: 1,
+        // sync_gwj_status: 1,
         total_stock: 0,
         serial: '',
         give_time: '',

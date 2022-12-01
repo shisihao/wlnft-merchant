@@ -2,17 +2,17 @@
   <div v-loading="loading" class="app-container">
     <el-empty v-if="contentLoading" description="暂无数据" />
     <el-tabs v-else v-model="activeName" type="card">
-      <el-tab-pane label="我的APP主题色" name="app">
+      <el-tab-pane label="我的主题色" name="app">
         <div class="app-content">
-          <div class="app-location">
+          <!-- <div class="app-location">
             当前统一下载地址：<el-link type="success">{{ `${originUrl}/download` }}</el-link>
-          </div>
+          </div> -->
           <div>
             <div>
               <tem-app :color="form.default_color" :index="index" />
             </div>
             <div class="app-preview">
-              我的APP预览
+              预览
             </div>
           </div>
           <div>
@@ -35,11 +35,11 @@
           </div>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="我的APPlogo" name="logo">
+      <el-tab-pane label="我的logo" name="logo">
         <div class="app-content">
           <app-step
             ref="appStep"
-            title="我的APP当前logo"
+            title="我的当前logo"
             @appLogoInfo="getAppLogoInfo"
           />
           <div class="color-btn">

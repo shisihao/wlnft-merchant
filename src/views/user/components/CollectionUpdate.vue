@@ -138,8 +138,8 @@ export default {
         { label: '常规纪念品', value: 'order' },
         { label: '盲盒纪念品', value: 'box' },
         { label: '空投纪念品', value: 'airdrop' },
-        { label: '合成纪念品', value: 'synthesis' }
-        /* { label: '铸造纪念品', value: 'cast' } */
+        { label: '合成纪念品', value: 'synthesis' },
+        { label: '专属纪念品', value: 'cast' }
       ],
       visible: false,
       GoogleCodeVisible: false,

@@ -20,7 +20,7 @@
             <el-option v-for="item in whetherOptions" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
-        <el-form-item label="是否同步奇藏果">
+        <!-- <el-form-item label="是否同步奇藏果">
           <el-select v-model="search.sync_status" clearable @change="getList(1)">
             <el-option v-for="item in sync_status_options" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
@@ -29,7 +29,7 @@
           <el-select v-model="search.sync_gwj_status" clearable @change="getList(1)">
             <el-option v-for="item in sync_status_options" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="发表时间">
           <el-date-picker
             v-model="dateRangeValue"
@@ -138,12 +138,12 @@
             类型：
             <el-link class="preview-btn" :underline="false" :type="goodShowType(row) | paraphrase(goodShowTypeOptions, 'value', 'type')">{{ goodShowType(row) | paraphrase(goodShowTypeOptions) }}</el-link>
           </div>
-          <div>
+          <!-- <div>
             是否同步奇藏果：{{ row.sync_status?'否':'是' }}
           </div>
           <div>
             是否同步甘文交：{{ row.sync_gwj_status?'否':'是' }}
-          </div>
+          </div> -->
         </template>
       </el-table-column>
 
@@ -301,8 +301,8 @@ export default {
         keywords: '',
         status: '',
         sellout: '',
-        sync_status: '',
-        sync_gwj_status: '',
+        // sync_status: '',
+        // sync_gwj_status: '',
         start_time: '',
         end_time: '',
         tags: []

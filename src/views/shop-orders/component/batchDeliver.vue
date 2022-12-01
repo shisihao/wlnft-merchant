@@ -2,17 +2,18 @@
   <el-dialog title="批量发货" :visible.sync="visible" :close-on-click-modal="false" :close-on-press-escape="false" @closed="onClose()">
     <el-form ref="form" :model="form" :rules="rules" label-width="150px">
       <el-form-item label="上传Excel文件" prop="file_path">
-        <el-upload
-          :action="fileDmoin + 'public/upload'"
+        <custom-upload
+          class-name=""
           :limit="1"
+          :show-file-list="true"
           :file-list="fileList"
-          :before-upload="handleBeforeUpload"
-          :on-exceed="handleExceed"
-          :on-success="handleSuceess"
+          @handleBeforeUpload="beforeAvatarUpload"
+          @handleSuccess="handleAvatarSuccess"
+          @handleExceed="handleExceed"
+          @handleRemove="handleRemove"
         >
           <el-button type="primary">点击上传</el-button>
-          <div slot="tip" class="el-upload__tip">只能上传xlsx文件</div>
-        </el-upload>
+        </custom-upload>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -27,12 +28,14 @@
 </template>
 <script>
 import { batchDeliver } from '@/api/shop-management'
+import CustomUpload from '@/components/Upload/CustomUpload'
+
 export default {
   name: 'BatchDeliver',
+  components: { CustomUpload },
   data() {
     return {
       visible: false,
-      fileDmoin: process.env.NODE_ENV === 'development' ? process.env.VUE_APP_BASE_API : `${location.origin}/admin/`,
       form: {
         file_path: ''
       },
@@ -68,21 +71,26 @@ export default {
     handleExceed() {
       this.$message.warning(`当前限制选择 1 个文件，请删除后在上传`)
     },
-    handleBeforeUpload(file) {
-      console.log(file)
+    beforeAvatarUpload(file, cb) {
       const a = file.name.split('.')
       const isLt2M = file.size / 1024 / 1024 < 3
       if (a[a.length - 1] !== 'xlsx') {
         this.$message.error('上传文件只能是 xlsx 格式!')
+        cb(false)
         return false
       }
       if (!isLt2M) {
         this.$message.error('上传文件大小不能超过 3M')
+        cb(false)
         return false
       }
+      cb(true)
     },
-    handleSuceess(file, fileList) {
-      this.form.file_path = file.data.path || ''
+    handleRemove() {
+      this.form.file_path = ''
+    },
+    handleAvatarSuccess(response) {
+      this.form.file_path = response
     }
   }
 }

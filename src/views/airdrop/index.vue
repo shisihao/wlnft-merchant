@@ -33,7 +33,7 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="是否同步奇藏果">
+        <!-- <el-form-item label="是否同步奇藏果">
           <el-select v-model="search.sync_status" clearable @change="getList(1)">
             <el-option v-for="item in sync_status_options" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
@@ -42,7 +42,7 @@
           <el-select v-model="search.sync_gwj_status" clearable @change="getList(1)">
             <el-option v-for="item in sync_status_options" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-button icon="el-icon-search" @click="getList(1)">
           {{ $t('table.search') }}
         </el-button>
@@ -127,12 +127,12 @@
           <div>
             是否3D：<span :style="`color: ${ row.is_three ? '#409eff' : '' }`">{{ row.is_three | paraphrase(whetherOptions) }}</span>
           </div>
-          <div>
+          <!-- <div>
             是否同步奇藏果：{{ row.sync_status?'否':'是' }}
           </div>
           <div>
             是否同步甘文交：{{ row.sync_gwj_status?'否':'是' }}
-          </div>
+          </div> -->
         </template>
       </el-table-column>
 
@@ -259,8 +259,8 @@ export default {
         keywords: '',
         status: '',
         sellout: '',
-        sync_status: '',
-        sync_gwj_status: '',
+        // sync_status: '',
+        // sync_gwj_status: '',
         start_time: '',
         end_time: '',
         tags: []
@@ -285,12 +285,12 @@ export default {
       imageViewer: false,
       pickerOptions,
       whetherOptions,
-      statusOptions,
-      sync_status_options: [
-        { label: '全部', value: '' },
-        { label: '否', value: 1 },
-        { label: '是', value: 0 }
-      ]
+      statusOptions
+      // sync_status_options: [
+      //   { label: '全部', value: '' },
+      //   { label: '否', value: 1 },
+      //   { label: '是', value: 0 }
+      // ]
     }
   },
   computed: {

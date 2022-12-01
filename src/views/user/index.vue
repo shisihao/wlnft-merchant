@@ -199,7 +199,7 @@
       </el-table-column> -->
       <el-table-column
         label="操作"
-        width="200"
+        width="250"
         fixed="right"
         align="center"
       >
@@ -209,14 +209,15 @@
             <!-- <el-button plain type="primary" @click="onFollow(row)">关注</el-button>
             <el-button plain type="primary" @click="onFans(row)">粉丝</el-button> -->
             <!-- <el-button type="primary" @click="onAddOrUpdate(row)">编辑</el-button> -->
+            <el-button plain type="info" @click="onCollection(row)">他的纪念品</el-button>
             <el-button type="danger" @click="onDelete(row)">删除</el-button>
           </el-button-group>
-          <el-button-group style="margin-top: 5px;">
-            <!-- <el-button plain type="primary" @click="onUserLikes(row)">他的喜欢</el-button> -->
-            <el-button plain type="primary" @click="onCollection(row)">他的纪念品</el-button>
-            <el-button plain type="primary" @click="onWallet(row)">钱包流水</el-button>
-            <!-- <el-button type="warning" :disabled="!row.forbid_time" style="border-left-color: #a3d3ff;" @click="forbidCancels(row)">解除禁言</el-button> -->
-          </el-button-group>
+          <!-- <el-button-group style="margin-top: 5px;"> -->
+          <!-- <el-button plain type="primary" @click="onUserLikes(row)">他的喜欢</el-button> -->
+
+          <!-- <el-button plain type="primary" @click="onWallet(row)">钱包流水</el-button> -->
+          <!-- <el-button type="warning" :disabled="!row.forbid_time" style="border-left-color: #a3d3ff;" @click="forbidCancels(row)">解除禁言</el-button> -->
+          <!-- </el-button-group> -->
         </template>
       </el-table-column>
     </el-table>

@@ -117,6 +117,7 @@ export default {
       this.form.file_path = ''
     },
     handleSuceess(response) {
+      console.log(response)
       this.form.file_path = response
     }
   }

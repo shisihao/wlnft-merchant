@@ -66,6 +66,20 @@
         <el-descriptions-item label="收货地址">{{ form.consignee_address || '-' }}</el-descriptions-item>
         <el-descriptions-item label="处理备注">{{ form.explain || '-' }}</el-descriptions-item>
       </el-descriptions>
+      <!-- <swiper ref="mySwiper" :options="swiperOption">
+        <swiper-slide v-for="(item, index) in form.images" :key="index" class="images-list">
+          <template v-if="item">
+            <el-image
+              class="image-item"
+              fit="contain"
+              :src="domin + item"
+              @click="onPicturePreview(form.images, index)"
+            />
+          </template>
+        </swiper-slide>
+        <div v-if="Array.isArray(form.images) && form.images.length > 3" slot="button-prev" class="swiper-button-prev" @click="prev()" />
+        <div v-if="Array.isArray(form.images) && form.images.length > 3" slot="button-next" class="swiper-button-next" @click="next()" />
+      </swiper> -->
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button type="info" :loading="btnLoading" @click="visible = false">
@@ -78,6 +92,7 @@
 <script>
 import { DominKey, getToken } from '@/utils/auth'
 import { payTypeOptions, handleOptions, payOptions } from '@/utils/explain'
+
 export default {
   name: 'PendingUpdate',
   data() {
@@ -87,6 +102,14 @@ export default {
       domin: getToken(DominKey),
       payTypeOptions: payTypeOptions.concat(payOptions).concat({ label: '纪念品兑换', value: 'voucherpay' }),
       handleOptions,
+      swiperOption: {
+        slidesPerView: 3,
+        spaceBetween: 10,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        }
+      },
       form: {
         entity_goods_order: {
           goods_order: {
@@ -117,6 +140,11 @@ export default {
     }
   },
   computed: {
+    swiper() {
+      return function(name, v = 0) {
+        return this.$refs['mySwiper'].$swiper
+      }
+    }
   },
   methods: {
     init(data) {
@@ -124,6 +152,19 @@ export default {
       if (data) {
         this.form = JSON.parse(JSON.stringify(data))
       }
+    },
+    onPicturePreview(imgArr, index) {
+      const newImgArr = imgArr.concat()
+      const currentItemArr = newImgArr.slice(index, index + 1)
+      newImgArr.splice(index, 1)
+      const currentArr = currentItemArr.concat(newImgArr).map(v => {
+        return this.domin + v
+      })
+      this.imageViewerList = currentArr
+      this.imageViewer = true
+    },
+    onCloseViewer() {
+      this.imageViewer = false
     },
     onClose() {
       this.btnLoading = false

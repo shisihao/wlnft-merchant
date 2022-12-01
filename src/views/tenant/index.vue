@@ -129,7 +129,7 @@
                     <el-form-item label="开户名">
                       {{ configInfo.account_receivable ? configInfo.account_receivable.bank.account_name : '' }}
                     </el-form-item>
-                    <el-form-item v-if="step === 1 && price > 0" label="支付凭证" prop="credential">
+                    <el-form-item v-if="step === 1 && price >= 0" label="支付凭证" prop="credential">
                       <custom-upload
                         class-name="avatar-uploader avatar1"
                         ref-name="credential"

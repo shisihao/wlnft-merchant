@@ -245,7 +245,7 @@
           </el-radio-group>
         </el-form-item>
       </div>
-      <el-form-item label="是否同步奇藏果" prop="sync_status">
+      <!-- <el-form-item label="是否同步奇藏果" prop="sync_status">
         <el-radio-group v-model="form.sync_status">
           <el-radio :label="1">否</el-radio>
           <el-radio :label="0" :disabled="form.sync_gwj_status===0">是</el-radio>
@@ -256,7 +256,7 @@
           <el-radio :label="1">否</el-radio>
           <el-radio :label="0" :disabled="form.sync_status===0">是</el-radio>
         </el-radio-group>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="排序" prop="sort">
         <el-input-number v-model="form.sort" :min="0" :precision="0" />
       </el-form-item>
@@ -373,8 +373,8 @@ export default {
         is_pre: 0,
         give_time: '',
         give_status: 0,
-        sync_status: 1,
-        sync_gwj_status: 1,
+        // sync_status: 1,
+        // sync_gwj_status: 1,
         three_url: {
           three_type: '',
           three_mtl: '',

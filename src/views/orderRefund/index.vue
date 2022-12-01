@@ -85,7 +85,7 @@
           <div v-if="row.user" style="display: inline-block;margin-left: 10px;vertical-align: top;">
             <div>#{{ row.user.id || '-' }}</div>
             <div>{{ row.user.name || '-' }}</div>
-            <div>{{ row.user.phone | cancelPhone }}</div>
+            <div>{{ row.user.phone }}</div>
           </div>
           <div v-else style="text-align: center"> - </div>
         </template>
@@ -119,7 +119,7 @@
       >
         <template slot-scope="{ row, $index }">
           <div class="recommendPage">
-            <swiper :ref="'mySwiper' + $index" :options="swiperOption">
+            <swiper :ref="'mySwiper1' + $index" :options="swiperOption">
               <swiper-slide v-for="(item, index) in row.images" :key="index" class="images-list">
                 <template v-if="item">
                   <el-image
@@ -130,8 +130,33 @@
                   />
                 </template>
               </swiper-slide>
-              <div v-if="Array.isArray(row.images) && row.images.length > 3" slot="button-prev" class="swiper-button-prev" @click="prev($index)" />
-              <div v-if="Array.isArray(row.images) && row.images.length > 3" slot="button-next" class="swiper-button-next" @click="next($index)" />
+              <div v-if="Array.isArray(row.images) && row.images.length > 3" slot="button-prev" class="swiper-button-prev" @click="prev('mySwiper1',$index)" />
+              <div v-if="Array.isArray(row.images) && row.images.length > 3" slot="button-next" class="swiper-button-next" @click="next('mySwiper1',$index)" />
+            </swiper>
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="images"
+        label="物流凭证"
+        width="261"
+        header-align="center"
+      >
+        <template slot-scope="{ row, $index }">
+          <div class="recommendPage">
+            <swiper :ref="'mySwiper2' + $index" :options="swiperOption">
+              <swiper-slide v-for="(item, index) in row.logistics_images" :key="index" class="images-list">
+                <template v-if="item">
+                  <el-image
+                    class="image-item"
+                    fit="contain"
+                    :src="domin + item"
+                    @click="onPicturePreview(row.logistics_images, index)"
+                  />
+                </template>
+              </swiper-slide>
+              <div v-if="Array.isArray(row.logistics_images) && row.logistics_images.length > 3" slot="button-prev" class="swiper-button-prev" @click="prev('mySwiper2',$index)" />
+              <div v-if="Array.isArray(row.logistics_images) && row.logistics_images.length > 3" slot="button-next" class="swiper-button-next" @click="next('mySwiper2',$index)" />
             </swiper>
           </div>
         </template>
@@ -257,8 +282,8 @@ export default {
   },
   computed: {
     swiper() {
-      return function(v = 0) {
-        return this.$refs[`mySwiper${v}`].$swiper
+      return function(name, v = 0) {
+        return this.$refs[`${name}${v}`].$swiper
       }
     }
   },
@@ -395,11 +420,11 @@ export default {
     onCloseViewer() {
       this.imageViewer = false
     },
-    prev(index) {
-      this.swiper(index).slidePrev()
+    prev(name, index) {
+      this.swiper(name, index).slidePrev()
     },
-    next(index) {
-      this.swiper(index).slideNext()
+    next(name, index) {
+      this.swiper(name, index).slideNext()
     }
   }
 }

@@ -7,7 +7,7 @@
             <div class="card-panel">
               <div v-if="common.sale" class="card-panel-description">
                 <div class="card-panel-text">本月纪念品销售额（元）</div>
-                <count-to :start-val="0" :end-val="+common.sale.cny.curr_month" :duration="2000" :class="common.order > 0 ? 'card-panel-warning' : ''" class="card-panel-num" />
+                <count-to :start-val="0" :end-val="+common.sale.cny.curr_month" :decimals="2" :duration="2000" class="card-panel-num" />
                 <div class="card-panel-desc">累计销售额 {{ common.sale.cny.total }}</div>
               </div>
             </div>
@@ -16,7 +16,7 @@
             <div class="card-panel">
               <div class="card-panel-description">
                 <div class="card-panel-text"> 上月纪念品销售额（元） </div>
-                <count-to :start-val="0" :end-val="+common.sale.cny.last_month" :duration="2000" :class="common.withdrawal > 0 ? 'card-panel-warning' : ''" class="card-panel-num" />
+                <count-to :start-val="0" :end-val="+common.sale.cny.last_month" :decimals="2" :duration="2000" :class="common.withdrawal > 0 ? 'card-panel-warning' : ''" class="card-panel-num" />
               </div>
             </div>
           </el-col>
@@ -26,7 +26,7 @@
                 <div class="card-panel-text">
                   本月商城销售额（元）
                 </div>
-                <count-to :start-val="0" :end-val="+common.entity_sale.cny.curr_month" :duration="2000" class="card-panel-num" />
+                <count-to :start-val="0" :end-val="+common.entity_sale.cny.curr_month" :decimals="2" :duration="2000" class="card-panel-num" />
                 <div class="card-panel-desc">累计销售额 {{ common.entity_sale.cny.total || 0 }}</div>
               </div>
             </div>
@@ -37,7 +37,7 @@
                 <div class="card-panel-text">
                   上月商城销售额（元）
                 </div>
-                <count-to :start-val="0" :end-val="+common.entity_sale.cny.last_month" :duration="2000" class="card-panel-num" />
+                <count-to :start-val="0" :end-val="+common.entity_sale.cny.last_month" :decimals="2" :duration="2000" class="card-panel-num" />
               </div>
             </div>
           </el-col>

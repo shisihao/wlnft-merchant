@@ -49,12 +49,12 @@
 
     <div v-loading="loading">
       <el-table v-loading="loading" border :data="list">
-        <el-table-column prop="id" label="ID" align="center" />
+        <!-- <el-table-column prop="id" label="ID" align="center" /> -->
         <el-table-column prop="order_no" label="订单号" align="center" />
-        <el-table-column prop="order_no" label="订单时间" align="center" />
-        <el-table-column prop="created_at" header-align="center" label="订单时间">
+        <el-table-column prop="created_at" label="订单时间" align="center" />
+        <el-table-column header-align="center" label="费用信息">
           <template slot-scope="{ row }">
-            <div>{{ row.month }}月服务费：￥{{ row.pay_price }}}</div>
+            <div>{{ row.month }}月服务费：￥{{ row.pay_price }}</div>
           </template>
         </el-table-column>
         <el-table-column header-align="center" label="账户信息">
@@ -129,7 +129,7 @@
         <el-table-column label="操作" width="160" align="center">
           <template slot-scope="{ row }">
             <el-button
-              v-if="row.status !== 1"
+              v-if="[0,3].includes(row.status)"
               type="primary"
               @click="handleOprate(row)"
             >

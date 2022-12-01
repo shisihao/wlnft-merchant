@@ -55,7 +55,7 @@
       <el-table-column prop="month" label="订单信息" align="center">
         <template slot-scope="{ row }">
           <div>上链次数：{{ row.num }} </div>
-          <div>总结：{{ row.pay_price }}</div>
+          <div>总费用：{{ row.pay_price }}</div>
         </template>
       </el-table-column>s
       <el-table-column header-align="center" label="账户信息">
@@ -120,7 +120,7 @@
       <el-table-column label="操作" width="160" align="center">
         <template slot-scope="{ row }">
           <el-button
-            v-if="row.status !== 1"
+            v-if="[0,3].includes(row.status)"
             type="primary"
             @click="handleOprate(row)"
           >
