@@ -159,8 +159,7 @@ export default {
     init(data) {
       this.visible = true
       if (data) {
-        this.binList = [{ name: data.three_url.three_bin }]
-        this.gltfList = [{ name: data.three_url.three_gltf }]
+        data.three_url.three_type ??= 'gltf'
         this.form = { ...data }
       }
     },
