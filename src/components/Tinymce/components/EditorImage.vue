@@ -169,8 +169,8 @@ export default {
         } else if (file.type.indexOf('video/') >= 0) {
           videoSize.then(response => {
             const { width } = response
-            if (width > 750) {
-              _self.$message.error('上传图片过大，宽度不超过`750像素`')
+            if (width > 1000) {
+              _self.$message.error('上传视频过大，宽度不超过`1000像素`')
               reject(false)
             } else {
               _self.listObj[fileName] = {}

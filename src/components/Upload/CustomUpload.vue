@@ -141,8 +141,8 @@ export default {
               videoSize
                 .then(response => {
                   const { width } = response
-                  if (width > 750) {
-                    this.$message.error('上传图片过大，宽度不超过`750像素`')
+                  if (width > 1000) {
+                    this.$message.error('上传视频过大，宽度不超过`1000像素`')
                     this.loading = false
                     reject(false)
                   } else {
